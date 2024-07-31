@@ -84,12 +84,6 @@ actions included:
 * Automatic code testing on pull requests.
 * Automatic releases with attached artifacts upon tagging the `main` branch.
 
-### Testing on Pull Requests
-
-The GitHub action for automatic testing was configured to trigger on any pull request. However, **successful completion
-of all tests was required only for pull requests to the develop branch**. This additional constraint ensured more
-rigorous development and greater attention to the implemented tests.
-
 ## Testing
 
 A _Test Driven Development_ (TDD) approach was followed to ensure robust development. This methodology involves defining
@@ -97,5 +91,38 @@ and implementing a test before developing the actual feature, leading to the cre
 significant portion of the code.
 
 Apart from trivial features, the process included **defining and implementing a test**, then **developing the desired
-feature**
-until the test(s) passed, and finally **refactoring** to improve the written code.
+feature** until the test(s) passed, and finally **refactoring** to improve the written code.
+
+### Testing on Pull Requests
+
+The GitHub action for automatic testing was configured to trigger on any pull request. However, **successful completion
+of all tests was required only for pull requests to the develop branch**. This additional constraint ensured more
+rigorous development and greater attention to the implemented tests.
+
+## Build
+
+We used [SBT](https://www.scala-sbt.org/) (_Simple Build Tool_) for build automation. SBT facilitated easy dependency
+management, compilation, test execution, and artifact creation, such as generating fat JAR files.
+
+## Documentation
+
+The entire project's code is documented using _scaladoc_, the standard documentation tool for Scala projects.
+
+Both the project documentation and this report are written in Markdown format and deployed
+using [Writerside](https://www.jetbrains.com/writerside/), a tool that helps create clear and organized documentation.
+
+## Additional Tools
+
+Several additional tools were utilized in this project:
+
+### Cucumber
+
+[Cucumber](https://cucumber.io/) is a tool for **Behavior Driven Development** (BDD). Its integration into the project
+testing allowed for the implementation of test step definitions using feature files. This made it an excellent tool for
+validating project requirements written in natural language using the Gherkin syntax.
+
+### Scalafmt
+
+[Scalafmt](https://scalameta.org/scalafmt/) is a code formatter for Scala. It helped reduce the time spent on code
+reviewing and cleaning.
+
