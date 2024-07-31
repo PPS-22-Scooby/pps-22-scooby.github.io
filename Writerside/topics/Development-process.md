@@ -126,13 +126,3 @@ validating project requirements written in natural language using the Gherkin sy
 
 [Scalafmt](https://scalameta.org/scalafmt/) is a code formatter for Scala. It helped reduce the time spent on code
 reviewing and cleaning.
-
-## Testing
-
-A _Test Driven Development_ (TDD) approach was followed to ensure robust development. This methodology involves defining
-and implementing a test before developing the actual feature, leading to the creation of comprehensive tests for a
-significant portion of the code.
-
-Apart from trivial features, the process included **defining and implementing a test**, then **developing the desired
-feature**
-until the test(s) passed, and finally **refactoring** to improve the written code.
