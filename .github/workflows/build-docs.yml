@@ -11,7 +11,7 @@
 
   env:
     INSTANCE: 'Writerside/dcx'
-    ARTIFACT: 'webHelpHI2-all.zip'
+    ARTIFACT: 'webHelpDCX2-all.zip'
     DOCKER_VERSION: '241.18775'
 
   jobs:
@@ -63,10 +63,6 @@
           uses: actions/download-artifact@v4
           with:
             name: docs
-            path: ./artifacts
-
-        - name: Ls folder
-          run: ls -la ./artifacts
 
         - name: Unzip artifact
           run: unzip -O UTF-8 -qq '${{ env.ARTIFACT }}' -d dir
