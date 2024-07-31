@@ -37,8 +37,8 @@ critical problems, which could extend the duration of these meetings.
 ## YouTrack
 
 The tool [YouTrack](https://www.jetbrains.com/youtrack/) was used to organize activities, manage the backlog, allocate
-tasks, and track additional project materials. YouTrack provides numerous features to support agile development,
-including:
+tasks, and track additional project materials. YouTrack provides numerous features to support agile development: the
+following two were intensively used.
 
 ### Knowledge Base
 
@@ -46,9 +46,9 @@ The _Knowledge Base_ allows the creation of hypertext articles to form a publicl
 used to maintain important textual artifacts that documented crucial decisions about various project aspects. For
 instance, the **Glossary** contained a list of significant terms and entities relevant to the design phase.
 
-### Agile Notice Board
+### Agile Board
 
-The _Agile Noticeboard_ facilitated the organization, visualization, and tracking of tasks assigned to group members (
+The _Agile board_ facilitated the organization, visualization, and tracking of tasks assigned to group members (
 i.e., _tickets_). Four columns were set up: Open, In Progress, To Be Checked, and Completed. Each ticket was labeled
 with one of the following categories:
 
@@ -96,5 +96,6 @@ A _Test Driven Development_ (TDD) approach was followed to ensure robust develop
 and implementing a test before developing the actual feature, leading to the creation of comprehensive tests for a
 significant portion of the code.
 
-Apart from trivial features, the process included **defining and implementing a test**, then **developing the desired feature**
+Apart from trivial features, the process included **defining and implementing a test**, then **developing the desired
+feature**
 until the test(s) passed, and finally **refactoring** to improve the written code.
