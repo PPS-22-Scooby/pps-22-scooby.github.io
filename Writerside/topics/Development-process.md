@@ -72,8 +72,12 @@ _Git_ was used in conjunction with _GitHub_, following the **Gitflow** model and
 using [semantic commits](https://www.conventionalcommits.org/en/v1.0.0/). Two main branches were maintained: `main` for
 stable releases and code, and `develop` for sufficiently tested development code.
 
-New branches were created following the Gitflow nomenclature, such as `feature:<FEATURE_NAME>`, `fix:<FIXED_NAME>`,
-and `test:<TESTED_NAME>`.
+We adopted _Pull Requests_ as main technique to propagate updates.
+This choice, mixed with previous stated technologies, allowed us to ask for other members' revision and, moreover, 
+link changes to open issues if related.
+
+New branches were created following the Gitflow nomenclature, such as `feature/<FEATURE_NAME>`, `fix/<FIXED_NAME>`,
+and `test/<TESTED_NAME>`.
 
 ## CI/CD
 
@@ -118,11 +122,12 @@ Several additional tools were utilized in this project:
 
 ### Cucumber
 
-[Cucumber](https://cucumber.io/) is a tool for **Behavior Driven Development** (BDD). Its integration into the project
-testing allowed for the implementation of test step definitions using feature files. This made it an excellent tool for
+[Cucumber](https://cucumber.io/) is a tool for **Behavior Driven Development** (BDD). Its integration into the project's
+testing section allowed the implementation of test step definitions using feature files. This made it an excellent tool for
 validating project requirements written in natural language using the Gherkin syntax.
 
 ### Scalafmt
 
-[Scalafmt](https://scalameta.org/scalafmt/) is a code formatter for Scala. It helped reduce the time spent on code
+[Scalafmt](https://scalameta.org/scalafmt/) is a code formatter for Scala. It helped to reduce the time spent on code
 reviewing and cleaning.
+
