@@ -19,5 +19,7 @@
     <toc-element topic="Umls.md">
         <toc-element topic="Exporter.md"/>
         <toc-element topic="Scraper-uml.md"/>
+        <toc-element topic="Application-UML.md"/>
+        <toc-element topic="Scraper.md"/>
     </toc-element>
 </instance-profile>

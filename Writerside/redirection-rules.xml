@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="493f4cd0">
+        <description>Created after removal of "scraper" from docs</description>
+        <accepts>scraper.html</accepts>
+    </rule>
+    <rule id="4a0f351e">
+        <description>Created after removal of "Scraper uml" from docs</description>
+        <accepts>Scraper-uml.html</accepts>
+    </rule>
+    <rule id="14a012f">
+        <description>Created after removal of "DSL" from docs</description>
+        <accepts>DSL.html</accepts>
+    </rule>
+    <rule id="7f7d93ed">
+        <description>Created after removal of "Scraper in depth" from docs</description>
+        <accepts>Scraper-in-depth.html</accepts>
+    </rule>
+    <rule id="1a4614bc">
+        <description>Created after removal of "In Depth" from docs</description>
+        <accepts>In-Depth.html</accepts>
+    </rule>
+</rules>
