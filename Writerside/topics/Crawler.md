@@ -1,8 +1,8 @@
 # Crawler
 
 A Crawler is a system entity responsible for searching explorable links inside a web page. It interacts with the 
-coordinator to validate the found urls and is responsible for creating scrapers, for extracting data from a page, 
-and new crawlers to continue analysing the website.
+coordinator to validate the found urls and is responsible for creating scrapers, for extracting data from a page
+and new crawlers exploring new urls.
 
 We can summarize the interaction between the Crawler and the other components with the following:
 ```plantuml
@@ -27,6 +27,10 @@ We can summarize the interaction between the Crawler and the other components wi
 
 @enduml
 ```
+
+Each time a Crawler found a new valid url it spawns a new child crawler that will analyze it. When the analysis of the page 
+is complete, a crawler will continue to signal it to the parent, then when a crawler no longer has an active child
+it's removed from the system.
 
 ## Structure
 
@@ -80,3 +84,4 @@ def sameDomainLinks: ExplorationPolicy = (document: CrawlDocument) =>
 ```
 It's important to note that all crawlers will assume the same exploration policy inside the system and that should be configured
 at application startup.
+
