@@ -9,6 +9,12 @@
     <toc-element topic="starter-topic.md"/>
     <toc-element topic="Report.md">
         <toc-element topic="Development-process.md"/>
+        <toc-element topic="Requirements.md"/>
+        <toc-element topic="Design.md"/>
+        <toc-element topic="In-Depth-Design.md"/>
+        <toc-element topic="Implementation.md"/>
+        <toc-element topic="Retrospective.md"/>
+        <toc-element topic="Backlog.md"/>
     </toc-element>
     <toc-element topic="Umls.md">
         <toc-element topic="Scraper-uml.md"/>
