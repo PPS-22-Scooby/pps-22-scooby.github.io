@@ -22,4 +22,5 @@
         <toc-element topic="Application-UML.md"/>
         <toc-element topic="Scraper.md"/>
     </toc-element>
+    <toc-element topic="Crawler.md"/>
 </instance-profile>
