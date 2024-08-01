@@ -1,3 +1,0 @@
-# Scraper in depth
-
-Start typing here...

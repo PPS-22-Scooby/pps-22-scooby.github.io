@@ -22,25 +22,61 @@ scraper->scraper : Stop
 
 ## Structure
 
+
 ```plantuml
 
 @startuml Scraper
 
-class Crawler {
-    + Document crawl(path: URL)
+class Crawler<<(A, #FF7700) Actor>> {
+    exporter: ActorRef[ExporterCommands]
+    scraper: ActorRef[ScraperCommands]
+    scraperPolicy: ScraperPolicy[T]
 }
 
-class Scraper<T> {
-    - policy: Document => Iterable[T]
-    + Iterable[T] scrape(doc: Document)
+class ScrapeDocument {
+    find(regExp: String): Seq[String]
+    group(toGroup: Iterator[Regex.Match]): Seq[String]
+    frontier(): Seq[URL]
+    getAllLinkOccurrences(): Seq[URL]
+    parseDocument(using parser: Parser[HTMLDom]): HTMLDom
+    select(selectors: String*): Seq[HTMLElement]
+    getElementById(id: String): Option[HTMLElement]
+    getElementsByTag(tag: String): Seq[HTMLElement]
+    getElementsByClass(className: String): Seq[HTMLElement]
+    getAllElements(): Seq[HTMLElement]
 }
 
-class Exporter {
-    + Unit export(result: Iterable[T])
+enum ScraperCommand {
+    Scrape(document:ScrapeDocument)
 }
 
-Crawler --> Scraper: scrape
-Scraper --> Exporter: export
+class ScraperPolicy<T> {
+    apply(document: ScrapeDocument): Iterable[T]
+}
+
+class Scraper<<(A, #FF7700) Actor>> {
+    exporter: ActorRef[ExporterCommands]
+    policy: ScraperPolicy[T]
+    scrape(document: ScrapeDocument): Iterable[T]
+}
+
+class Exporter<<(A, #FF7700) Actor>> {
+    export(result: Iterable[T]): Unit
+}
+
+Scraper ..> ScraperCommand: <<uses>>
+Scraper ..> ScraperPolicy: <<uses>>
+Scraper ..> Exporter: <<signal>>
+
+ScraperPolicy ..> ScrapeDocument: <<uses>>
+
+Crawler ..> Scraper: <<creates>>
+Crawler ..> Scraper: <<signal>>
 
 @enduml
 ```
+
+## Scraper Policy
+
+A Scraper Policy is the transformation that the Scraper applies to the page provided by Crawler to gather structured
+information, which are then delivered to the Exporter entity.

@@ -1,3 +1,0 @@
-# In Depth
-
-Start typing here...
