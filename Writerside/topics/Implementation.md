@@ -20,7 +20,7 @@ From an implementation point of view I mainly managed:
 - Scraper design and its incremental implementation, starting from a standard class design, enriching after a working version has been done with its actor extension. Moreover, some template Policies has been provided.
 - Scraper's Result design and its incremental implementation, starting from a simple container, enriched with aggregation techniques to promote Exporter scaling.
 - DSL Exporter section, designing and implementing DSL keywords.
-- Design and implementation of tests suites.
+- Design and implementation of tests suites related to previous topics.
 
 Further details of implementation for the most relevant parts are described in the following sections.
 
@@ -33,7 +33,7 @@ ScrapeDocument, which contains useful utils for scraping) into an iterable of ge
 ```Scala
 /**
 * A type representing a function that extract an [[Iterable]] used
-* to build [[DataResult]] from a [[Document]].
+* to build [[Result]] from a [[Document]].
 */
 type ScraperPolicy[T] = ScrapeDocument => Iterable[T]
 ```
@@ -43,13 +43,13 @@ approach has been followed even during DSL keyword definitions.
 
 ```Scala
 /**
-* Utility for scraper's rules based on selectBy attribute,
+* Utility for scraper's policies based on selectBy attribute,
 * given selectors specified.
 * Admissible values are id, tag, class and css.
 *
 * @param selectors a [[Seq]] of selectors used in scraper rule.
 * @param selectBy a selector to specify the rule.
-* @return the selected rule with specified selectors.
+* @return the selected policy with specified selectors.
 */
 def scraperRule(selectors: Seq[String], selectBy: String): ScraperPolicy[String] =
   (scraper: ScrapeDocument) =>
@@ -65,7 +65,7 @@ def scraperRule(selectors: Seq[String], selectBy: String): ScraperPolicy[String]
       case "regex" =>
         selectors.flatMap(scraper.find)
       case _ =>
-        throw Error(s"Not yet implemented rule by $selectBy")
+        throw Error(s"Not yet implemented policy by $selectBy")
 ```
 
 Moreover, following this approach, an extension method to concatenate policies has been added.
@@ -74,7 +74,7 @@ Moreover, following this approach, an extension method to concatenate policies h
 
 Result has been implemented through a case class, promoting immutability. Due to exporter requirements on both Batch
 and Streaming aggregation strategies, both kind of updates have been provided, as well as an aggregation method which
-allows Exporter scaling.
+allows usage of multiple Exporters.
 
 ```Scala
 /**
@@ -120,44 +120,160 @@ exports:
       toConsole withFormat text
 ```
 
-To achieve this, we used different technologies
-- Monocle: to maintain immutability but at the same time being able to build up Configurations correctly
-- Macros: to check if DSL syntax has been correctly used, i.e. context not defined more than 1 time
-
-To give a brief taste of DSL implementation, I report this snippet of code
+To give a brief taste of DSL implementation, I report this snippet of code:
 
 ```Scala
 /**
-* Context used to parse the exporting strategies given in configuration.
-* @param builder the [[ConfigurationBuilder]] containing all application parameters.
-* @tparam T the [[Result]]'s type.
-*/
-case class ExportContext[T](builder: ConfigurationBuilder[T]):
+ * Build the [[Exporter]] batch context.
+ * @param context the [[StrategiesContext]] containing exporting strategies.
+ * @tparam T the [[Result]]'s type.
+ * @return the [[BatchExportationContext]] built.
+ */
+def batch[T](using context: StrategiesContext[T]): BatchExportationContext[T] =
+  BatchExportationContext[T](context)
 
+/**
+ * Type alias representing the "Batch" section under the "exports" part of the DSL
+ * @tparam T type of results returned by the scraping.
+ */
+private type BatchDefinitionScope[T] = BatchSettingContext[T] ?=> Unit
+
+/**
+ * The exporter batch technique's context.
+ * @param context the context used to set the [[BatchExporting]] configuration.
+ * @tparam T the [[Result]]'s type.
+ */
+case class BatchExportationContext[T](context: StrategiesContext[T]):
   /**
-   * Builder used to summon the [[StrategiesContext]] containing exporting strategies and parse them in application
-   * configuration.
-   * @param block function which set the exporting strategies in [[StrategiesContext]].
+   * Builder used to set the [[BatchExporting]] configuration.
+   * @param block the function used to set the [[BatchExporting]] configuration.
    */
-  inline infix def apply(block: ExportDefinitionScope[T]): Unit =
-    catchRecursiveCtx[StrategiesContext[?]]("export")
+  inline infix def apply(block: BatchDefinitionScope[T]): Unit =
+    catchRecursiveCtx[BatchSettingContext[?]]("batch")
     visitCtxUnsafe(block)
 
   /**
-   * Unsafe version of [[ExportContext.apply]]
-   * @param block function which set the exporting strategies in [[StrategiesContext]].
+   * Unsafe version of [[BatchExportationContext.apply]].
+   * @param block the function used to set the [[BatchExporting]] configuration.
    */
-  private def visitCtxUnsafe(block: ExportDefinitionScope[T]): Unit =
-    given context: StrategiesContext[T] = StrategiesContext[T](Seq.empty[SingleExporting[T]])
+  private def visitCtxUnsafe(block: BatchDefinitionScope[T]): Unit =
+    given batchStrategyContext: BatchSettingContext[T] = BatchSettingContext[T](
+      ExportingBehaviors.writeOnConsole(Formats.string), AggregationBehaviors.default)
     block
-    builder.configuration = builder.configuration
-      .focus(_.exporterConfiguration.exportingStrategies).replace(context.exportingStrategies)
+    context.exportingStrategies ++= Seq(BatchExporting(
+      batchStrategyContext.policy,
+      batchStrategyContext.aggregation
+    ))
 ```
+
+By means of BatchExportationContext case class, a BatchSettingContext is built, checking if not previously built,
+failing otherwise, and filled with default behavior writeOnConsole and default aggregation.
+After that, BatchDefinitionScope is consumed; it applies policies and aggregation functions defined by users
+in batchStrategyContext, that is then exported in global context configuration.
+
+It is worth mentioning that multiple batch and streaming strategies can be specified, resulting in the execution of
+each one, while it's checked the correct structure of the DSL configuration, i.e. it's not possible to define an export
+block inside an already defined export context.
 
 ### Tests
 
+All features implementation have been preceded by a robust test phase. In details, all my main implementations have
+been tested with ScalaTest suite. Beyond my implementation, I tested also the application with standard configurations
+against the one configured using DSL syntax:
 
+```Scala
+"Application with DSL configuration and standard configurations"
+  should "obtain the same result" in :
+    val appDSL = scooby:
+      config:
+        network:
+          Timeout is timeout
+          MaxRequests is maxRequest
+          headers:
+            auth._1 to auth._2
+        options:
+          MaxDepth is maxDepth
+          MaxLinks is maxLinks
+
+      crawl:
+        url:
+          this.url
+        policy:
+          linksPolicy
+      scrape:
+        scrapePolicyDSL(scrapeToIter)
+      exports:
+        batch:
+          strategy:
+            batchStrategyDSL(filePathDSL.toString)
+          aggregate:
+            batchAggregation
+
+    val appStandard = ScoobyRunnable(
+      Configuration(
+        CrawlerConfiguration(
+          URL(url),
+          ExplorationPolicies.allLinks,
+          maxDepth,
+          ClientConfiguration(timeout, maxRequest, Map(auth))
+        ),
+        ScraperConfiguration(scrapeToIter),
+        ExporterConfiguration(Seq(
+          BatchExporting(
+            (res: Result[HTMLElement]) =>
+              batchStrategy(filePathStandard.toString)(res.data),
+            (res1: Result[HTMLElement], res2: Result[HTMLElement]) => 
+              Result(batchAggregation(res1.data, res2.data))
+          ))),
+        CoordinatorConfiguration(maxLinks)
+      )
+    )
+
+    val resultDSL: Map[String, Int] = resultsToCheckAsMapWithSize(
+      Await.result(appDSL.run(), 10.seconds), _.tag
+      )
+    val resultStandard: Map[String, Int] = resultsToCheckAsMapWithSize(
+      Await.result(appStandard.run(), 10.seconds), _.tag
+      )
+
+    resultDSL == resultStandard shouldBe true
+```
 
 #### Cucumber features
 
-All features implementation have been preceded by a robust test phase as 
+The domain entity Scraper has been tested also using cucumber suite test, by definition of features and
+its implementation.
+
+```Scala
+Feature: Scraper data filtering.
+
+  Scenario: No matching after data filtering
+  Given I have a scraper with a proper configuration
+  And   I have a document with no matching
+  When  The scraper applies the rule
+  Then  It should send an empty result
+
+Given("""I have a scraper with a proper configuration""") : () =>
+  val selectors: Seq[String] = Seq("li", "p")
+  scraperActor = testKit.spawn(Scraper(exporterProbe.ref,
+   ScraperPolicies.scraperRule(selectors, "tag")))
+   
+And("""I have a document with no matching""") : () =>
+  docContent =
+    s"""
+     |<html lang="en">
+     |<head>
+     |  <title>Basic HTML Document</title>
+     |</head>
+     |</html>
+     |""".stripMargin
+  docUrl = URL.empty
+  scrapeDocument = ScrapeDocument(docContent, docUrl)
+  result = Result.empty[String]
+  
+When("""The scraper applies the rule""") : () =>
+  scraperActor ! ScraperCommands.Scrape(scrapeDocument)
+  
+Then("""It should send an empty result""") : () =>
+  exporterProbe.expectMessage(ExporterCommands.Export(result))
+```
