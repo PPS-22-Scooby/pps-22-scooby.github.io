@@ -12,16 +12,24 @@
         <toc-element topic="Requirements.md"/>
         <toc-element topic="Design.md"/>
         <toc-element topic="In-Depth-Design.md"/>
-        <toc-element topic="Implementation.md"/>
+        <toc-element topic="Implementation.md">
+            <toc-element topic="Giovanni-Antonioni.md"/>
+            <toc-element topic="Valerio-Di-Zio.md"/>
+            <toc-element topic="Francesco-Magnani.md"/>
+            <toc-element topic="Luca-Rubboli.md"/>
+        </toc-element>
         <toc-element topic="Retrospective.md"/>
         <toc-element topic="Backlog.md"/>
     </toc-element>
     <toc-element topic="Umls.md">
+        <toc-element topic="Document.md"/>
+        <toc-element topic="HTTP.md"/>
+        <toc-element topic="Scooby-application-lifecycle.md"/>
         <toc-element topic="Crawler.md"/>
         <toc-element topic="Exporter.md"/>
         <toc-element topic="Scraper-uml.md"/>
         <toc-element topic="Application-UML.md"/>
         <toc-element topic="Scraper.md"/>
         <toc-element topic="DSL.md"/>
-    </toc-element>  
+    </toc-element>
 </instance-profile>
