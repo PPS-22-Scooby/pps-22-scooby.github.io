@@ -1,3 +1,3 @@
-# Document
+# Document library
 
 Start typing here...
