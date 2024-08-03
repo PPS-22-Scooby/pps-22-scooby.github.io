@@ -17,11 +17,13 @@
         <toc-element topic="Backlog.md"/>
     </toc-element>
     <toc-element topic="Umls.md">
+        <toc-element topic="Document.md"/>
+        <toc-element topic="HTTP.md"/>
         <toc-element topic="Crawler.md"/>
         <toc-element topic="Exporter.md"/>
         <toc-element topic="Scraper-uml.md"/>
         <toc-element topic="Application-UML.md"/>
         <toc-element topic="Scraper.md"/>
         <toc-element topic="DSL.md"/>
-    </toc-element>  
+    </toc-element>
 </instance-profile>
