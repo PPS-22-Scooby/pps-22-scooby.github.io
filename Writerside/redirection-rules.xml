@@ -26,4 +26,8 @@
         <description>Created after removal of "In Depth" from docs</description>
         <accepts>In-Depth.html</accepts>
     </rule>
+    <rule id="5be848c6">
+        <description>Created after removal of "HTML" from docs</description>
+        <accepts>HTML.html</accepts>
+    </rule>
 </rules>

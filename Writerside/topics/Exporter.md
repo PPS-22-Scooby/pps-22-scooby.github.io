@@ -64,5 +64,57 @@ The interaction between Scrapers and Batch Exporters can be summarized as follow
 @enduml
 ```
 
+## Structure
+
+```plantuml
+@startuml ExportClass
+
+interface Exporter
+
+Exporter <|-- StreamExporter
+Exporter <|-- BatchExporter
+
+class StreamExporter<<(A, #FF7700) Actor>> {
+    exportingBehavior: Result[T] => Unit
+}
+
+class BatchExporter<<(A, #FF7700) Actor>> {
+    exportingBehavior: Result[T] => Unit
+    aggregationBehavior: (Result[T], Result[T]) => Result[T]
+}
+
+enum ExporterCommands {
+    Export(result:Result[T])
+    SignalEnd(replyTo:ActorRef[ScoobyCommand])
+}
+
+class Result {
+    data: Iterable[T]
+}
+
+StreamExporter ..> ExporterCommands: <<uses>>
+BatchExporter ..> ExporterCommands: <<uses>>
+Exporter ..> Result: <<uses>>
+hide empty members
+
+class ExportingBehaviors<<(O, #906901) Object>> {
+    writeOnFile(path: Path, format: Result[A] => String): Result[T] => Unit
+    writeOnConsole(format: Result[A] => String): Result[T] => Unit
+}
+
+class FormattingBehaviors<<(O, #906901) Object>> {
+    string: Result[T] => String
+    json: Result[T] => String
+}
+
+ExportingBehaviors ..> FormattingBehaviors: <<uses>>
+StreamExporter ..> ExportingBehaviors: <<uses>>
+BatchExporter ..> ExportingBehaviors: <<uses>>
+
+@enduml
+```
+
+
+
 
 

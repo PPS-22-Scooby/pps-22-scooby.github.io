@@ -13,7 +13,8 @@ a fair load balancing; further details of each sprint will be depicted in <a hre
 
 I found this project fascinating due to an interesting goal, an inspirational team and project structure and requirements.
 The relevance granted to all methodologies that surround works allowed me to correctly structure workload and to gain
-the best time efficiency in team work, resulting in motivation and efforts to find the best solutions to faced problems.
+the best time efficiency in team work, resulting in motivation to look for the best solutions to deal with faced
+problems.
 
 Personally, I'm satisfied with my project work and effort.  
 
