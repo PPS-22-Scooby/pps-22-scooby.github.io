@@ -3,7 +3,10 @@
 <buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <variables></variables>
+    <variables>
+        <primary-color>#F21E1E</primary-color>
+        <custom-favicons>scooby_favicon.svg</custom-favicons>
+    </variables>
     <build-profile instance="dcx">
         <variables>
             <noindex-content>false</noindex-content>
