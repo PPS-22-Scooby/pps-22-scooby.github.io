@@ -74,11 +74,11 @@ interface Exporter
 Exporter <|-- StreamExporter
 Exporter <|-- BatchExporter
 
-class StreamExporter<<(A, #FF7700) Actor>> {
+class StreamExporter<T>  <<(A, #FF7700) Actor>> {
     exportingBehavior: Result[T] => Unit
 }
 
-class BatchExporter<<(A, #FF7700) Actor>> {
+class BatchExporter<T> <<(A, #FF7700) Actor>> {
     exportingBehavior: Result[T] => Unit
     aggregationBehavior: (Result[T], Result[T]) => Result[T]
 }
@@ -88,7 +88,7 @@ enum ExporterCommands {
     SignalEnd(replyTo:ActorRef[ScoobyCommand])
 }
 
-class Result {
+class Result<T> {
     data: Iterable[T]
 }
 
