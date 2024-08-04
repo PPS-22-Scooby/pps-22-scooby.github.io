@@ -3,8 +3,8 @@
 ## Project Structure
 The structure of the project is divided into three principal components: the DSL, the core, and the utils:
 
-- The **DSL** components manages the way the user configures the system using our custom internal domain-specific language.
 - The **core** component is the heart of the system, containing the main entities and the logic to manage them.
+- The **DSL** components manages the way the user configures the system using our custom internal domain-specific language.
 - The **utils** component contains utility classes and functions.
 
 ```plantuml
@@ -178,3 +178,83 @@ For both kind of exporters, is possible to define a behaviour that specify the f
 |---------|-------------|
 | `Export(result: Result[T])` | Export the result of a scraping operation. |
 | `SignalEnd(replyTo: ActorRef[ScoobyCommand])` | Signal the end of the export process. |
+
+### Scooby
+Scooby is the main entity of the system, responsible for starting the system and managing the entities. 
+It receives a `Configuration` object that describes the desired settings and starts the system accordingly.
+
+## DSL
+The [DSL](DSL.md) component is responsible for managing the way the user configures the system using our custom internal domain-specific 
+language. Every main entity in the system has a corresponding set of operations that can be used for produce a desired configuration
+described by a `Configuration` object, that will then be used by the `Scooby` entity to start the system.
+
+## Utils
+The `utils` component contains utility classes and functions that are used by the core entities. 
+`Document` represents an HTML document that is being fetched from a URL while the `HTTP` trait is used to download
+the content of a web page.
+
+### Document
+```plantuml
+@startuml Document
+    class Document {
+        content: String
+        url: URL
+    }
+    
+    class ScrapeDocument extends Document 
+    class CrawlDocument extends Document 
+    
+    interface HTMLExplorer <<trait>> {
+         - parseDocument(using parser: Parser[HTMLDom]): HTMLDom
+    }
+    
+    interface LinkExplorer <<trait>> extends HTMLExplorer, RegExpExplorer{
+        +frontier(): Seq[URL]
+        +group(toGroup: Iterator[Regex.Match]): Seq[String]
+    }
+    
+    interface EnhancedLinkExplorer <<trait>> extends HTMLExplorer {
+        getAllLinkOccurrences: Seq[URL]
+    }
+    
+    interface SelectorExplorer <<trait>> extends HTMLExplorer {
+        + select(selector: String): Seq[String]
+    }
+    
+    interface CommonHTMLExplorer <<trait>> extends HTMLExplorer {
+        + getElementById(id: String): Option[HTMLElement]
+        + getElementsByTag(tag: String): Seq[HTMLElement]
+        + getElementsByClass(className: String): Seq[HTMLElement]
+        + getAllElements: Seq[HTMLElement]
+    }
+    
+    interface RegExpExplorer <<trait>> extends HTMLExplorer {
+        + find(regExp: String): Seq[String]
+        + group(toGroup: Iterator[Regex.Match]): Seq[String]
+    }
+    
+    LinkExplorer .u.> CrawlDocument: <<mixin>>
+    
+    EnhancedLinkExplorer .u.> CrawlDocument: <<mixin>>
+    
+    SelectorExplorer .u.> ScrapeDocument: <<mixin>>
+    CommonHTMLExplorer .u.> ScrapeDocument: <<mixin>>
+    RegExpExplorer .u.> ScrapeDocument: <<mixin>>
+    
+@enduml
+```
+
+[Document](Document.md) allows to easily retrieve and work with the content of a web page. Crawlers and Scrapers use this 
+feature to parse the content of a page and extract the relevant information. The operation that are allowed on a document are
+defined by the Explorer mixins that are used. In our application we've two kind of document:
+- `CrawlDocument`: For crawling operations
+- `ScrapeDocument`: For scraping operations
+
+The former should only have operations for fetching links, so the `LinkExplorer` and `EnhancedLinkExplorer` mixins are used
+while, for the latter, we used the `SelectorExplorer`, `CommonHTMLExplorer` and `RegExpExplorer` mixins, enabling document
+to extract data from the page.
+
+### HTTP
+
+[HTTP](HTTP.md) is a utility component that allows to wrap a HTTP client library for download and parse the content of a 
+web page with a given simple and easy to use API.
