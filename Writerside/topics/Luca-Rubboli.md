@@ -2,7 +2,7 @@
 
 From an implementation point of view I mainly managed:
 - Scraper design and its incremental implementation, starting from a standard class design, enriching after a working version has been done with its actor extension. Moreover, some template Policies has been provided.
-- Scraper's Result design and its incremental implementation, starting from a simple container, enriched with aggregation techniques to promote Exporter scaling.
+- Scraper's Result design and its incremental implementation, starting from a simple container, enriched with aggregation techniques to promote Exporter's scaling.
 - DSL Exporter section, designing and implementing DSL keywords.
 - Design and implementation of tests suites related to previous topics.
 
@@ -103,7 +103,7 @@ exports:
       toConsole withFormat text
 ```
 
-To give a brief taste of DSL implementation, I report this snippet of code:
+To give a brief taste of DSL implementation, I report the following snippet of code:
 
 ```Scala
 /**
@@ -155,8 +155,8 @@ After that, BatchDefinitionScope is consumed; it applies policies and aggregatio
 in batchStrategyContext, that is then exported in global context configuration.
 
 It is worth mentioning that multiple batch and streaming strategies can be specified, resulting in the execution of
-each one, while it's checked the correct structure of the DSL configuration, i.e. it's not possible to define an export
-block inside an already defined export context.
+each one, while assertions on DSL configuration's structure are still done, in fact for example it's not possible to
+define an export block inside an already defined one.
 
 ### Tests
 
@@ -219,13 +219,12 @@ against the one configured using DSL syntax:
       Await.result(appStandard.run(), 10.seconds), _.tag
       )
 
-    resultDSL == resultStandard shouldBe true
+    resultDSL shouldBe resultStandard
 ```
 
 #### Cucumber features
 
-The domain entity Scraper has been tested also using cucumber suite test, by definition of features and
-its implementation.
+The domain entity Scraper has been tested also using cucumber suite test, by defining features and their implementation.
 
 ```Scala
 Feature: Scraper data filtering.
