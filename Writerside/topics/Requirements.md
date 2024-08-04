@@ -16,12 +16,11 @@ interact with the application.
 
 ### Application
 
-- The application must be able to crawl and scrape web pages from specified URLs;
+- Application must be able to crawl and scrape web pages from specified URLs;
 - Support for crawling websites with various structures;
 - Ability to extract specific data points, such as text, links, and metadata;
 - Application should support multiple web scraping strategies, such as CSS selectors and Regular Expressions;
 - Application should support distributed crawling, with the ability to scale horizontally by adding more nodes;
-- Ability to handle large volumes of data;
 - Implement network configurations to enhance the possibility to run on a wider range of websites (i.e. the ones which require user authentication);
 - Implement fault tolerance to handle errors gracefully;
 - Graceful handling of network issues, server timeouts, and other potential disruptions;
@@ -52,8 +51,6 @@ simplicity that target websites will not implement significant anti-scraping mea
 succeed CAPTCHA tests for instance.
 
 ## Implementation
-
-TODO What should we add??
 
 - Scala v3.4.2
 - ScalaTest v3.2.18
