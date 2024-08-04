@@ -1,9 +1,9 @@
-# Document library
+# Document Library
 
-As the Scooby application needs to constantly manage HTML documents and links inside a webpage, an abstraction for these
-kind of concepts is needed.
+Since the Scooby application needs to continuously manage HTML documents and links within webpages, an abstraction for
+these concepts is necessary.
 
-To this regard, we developed a **Document library** that encapsulates all that is needed of HTML documents and so on.
+To address this, we developed a **Document Library** that encapsulates everything needed to handle HTML documents.
 
 ## Structure
 
@@ -53,23 +53,23 @@ ScrapeDocument --|> SelectorExplorer
 @enduml
 ```
 
-As we can see, this library has been designed taking Scala Traits mechanism into consideration: their modularity and
-composability allowed to separate Document capabilities in a very fine-grained manner.
+This library is designed with Scala Traits in mind, leveraging their modularity and composability to separate document
+capabilities in a very fine-grained manner.
 
-Here we use what we've called **Explorers** in order to define what we can get from a Document's content. In relation to
-the kind of usage, not all types of Documents need all capabilities. For example, we crawl a webpage, we are more 
-interested in finding hyperlinks, better that using HTML selectors: in fact, `CrawlDocument` doesn't need the 
-`SelectorExplorer`. 
+We use what we call **Explorers** to define the capabilities for extracting information from a document's content.
+Depending on the use case, not all document types require all capabilities. For instance, when crawling a webpage, the
+primary interest is in finding hyperlinks rather than using HTML selectors, hence `CrawlDocument` does not require
+the `SelectorExplorer`.
 
-There a hierarchy also between Explorers: both `CommonHTMLExplorer` and `SelectorExplorer` need to access a HTML document
-under the hood, that needs to be parsed from the Document's string. For this reason, we defined a `HTMLExplorer` that 
-lazily parses a Document's content into HTML, and makes it available to the other Explorers that extends it (not outside,
-as it's private)
+There is also a hierarchy among the Explorers: both `CommonHTMLExplorer` and `SelectorExplorer` need to access an HTML
+document internally, which requires parsing the document's string content. Therefore, we defined an `HTMLExplorer` that
+lazily parses a document's content into HTML and makes it available to the other Explorers that extend it (keeping it
+private to maintain encapsulation).
 
-## HTML library
+## HTML Library
 
-To make the interaction and parsing of HTML content easier, a small HTML library has been designed. This library is 
-mainly used by the Explorers (particularly, `CommonHTMLExplorer`).
+To facilitate the interaction and parsing of HTML content, we designed a small HTML library. This library is mainly
+utilized by the Explorers (particularly the `CommonHTMLExplorer`).
 
 ```plantuml
 @startuml
