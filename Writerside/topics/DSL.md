@@ -51,82 +51,75 @@ implementation detail.
 
 ## Language Specification
 
-The primary part of the DSL specification is represented in the following BNF code snippet:
+The primary part of the DSL specification is represented in the following EBNF code snippet:
 
 **Note:** Since the language is implemented as an _internal_ DSL, there are many valid programs beyond this
 specification. Thus, the provided specification is only partial.
 
 ```BNF
-<program> ::= <scooby-block>
+program ::= scooby_block ;
 
-<scooby-block> ::= "scooby:" <config-block>? <crawl-block> <scrape-block>? <exports-block>?
+scooby_block ::= "scooby:" config_block? crawl_block scrape_block? exports_block? ;
 
-<config-block> ::= "config:" <network-block>? <option-block>?
-<network-block> ::= "network:" <network-setting>+
-<network-setting> ::= "NetworkTimeout is" <time>
-                    | "MaxRequests is" <number>
-                    | "headers:" <header-setting>+
-<header-setting> ::= <string> "to" <string>
-<option-block> ::= "option:" <option-setting>+
-<option-setting> ::= "MaxDepth is" <number>
-                    | "MaxLinks is" <number>
+config_block ::= "config:" network_block? option_block? ;
+network_block ::= "network:" network_setting+ ;
+network_setting ::= "NetworkTimeout is" time
+                  | "MaxRequests is" number
+                  | "headers:" header_setting+ ;
+header_setting ::= string "to" string ;
+option_block ::= "option:" option_setting+ ;
+option_setting ::= "MaxDepth is" number
+                 | "MaxLinks is" number ;
 
-<crawl-block> ::= "crawl:" <url-block> <policy-block>?
-<url-block> ::= "url:" <string>
-<policy-block> ::= "policy:" <policy-type>
-<policy-type> ::= "hyperlinks" <not-external>?
-                 | "allLinks" <not-external>?
-<not-external> ::= "not external"
+crawl_block ::= "crawl:" url_block policy_block? ;
+url_block ::= "url:" string ;
+policy_block ::= "policy:" policy_type ;
+policy_type ::= ("hyperlinks" | "allLinks") not_external? ;
+not_external ::= "not external" ;
 
-<scrape-block> ::= "scrape:" <element-selection>
-<element-selection> ::= "elements"
-                      | "elements that" <condition>
-                      | "elements that:" <condition-block>
-                      
-<condition> ::= "(" <condition-expr> ")"
-<condition-expr> ::= <simple-condition> ( "and" <simple-condition> )*
-<simple-condition> ::= "haveTag(" <string> ")"
-                     | "haveClass(" <string> ")"
-                     | "haveId(" <string> ")"
-                     | "haveAttribute(" <string> ")"
-                     | "haveAttributeValue(" <string> ")"
-                     | "followRule" "{" <rule> "}"
-<condition-block> ::= <rule-condition> ( "and" <rule-condition> )*
-<rule-condition> ::= "followRule" "{" <rule> "}"
+scrape_block ::= "scrape:" element_selection ;
+element_selection ::= "elements"
+                    | "elements that" condition
+                    | "elements that:" condition_block ;
 
-(* The following one are just two examples, the actual rule grammar is
- dependent on the host language *)
+condition ::= "(" condition_expr ")" ;
+condition_expr ::= simple_condition ( "and" simple_condition )* ;
+simple_condition ::= "haveTag(" string ")"
+                   | "haveClass(" string ")"
+                   | "haveId(" string ")"
+                   | "haveAttribute(" string ")"
+                   | "haveAttributeValue(" string ")"
+                   | "followRule" "{" rule "}" ;
+condition_block ::= rule_condition ( "and" rule_condition )* ;
+rule_condition ::= "followRule" "{" rule "}" ;
 
-<rule> ::= "element" <element-expr>
+rule ::= "element" element_expr ;
 
-<element-expr> ::= ".attr(" <string> ") == " <string>
-                  | ".text == " <string>
-                  | ".tag == " <string>
-                  | ".id == " <string>
-                  | ".parent" <element-expr>
+element_expr ::= ".attr(" string ") == " string
+               | ".text == " string
+               | ".tag == " string
+               | ".id == " string
+               | ".parent" element_expr ;
 
-<exports-block> ::= "exports:" <export-type-block>+
-<export-type-block> ::= "batch:" <batch-strategy-block> <aggregate-block>?
-                      | "streaming:" <result-strategy>
-<batch-strategy-block> ::= "strategy:" <result-strategy>
+exports_block ::= "exports:" export_type_block+ ;
+export_type_block ::= "batch:" batch_strategy_block aggregate_block?
+                    | "streaming:" result_strategy ;
+batch_strategy_block ::= "strategy:" result_strategy ;
 
-(* The following one are just some examples, the actual result strategy
-grammar is dependent on the host language *)
- 
-<result-strategy> ::= <result-expr> <output-destination>
-<result-expr> ::= "results" ( "get" <elem-property> )?
-<elem-property> ::= "tag" | "id" | "attr(" <string> ")" | "text" | "outerHtml"
-<aggregate-block> ::= "aggregate:" <aggregation>
-<aggregation> ::= "_ ++ _"
-<output-destination> ::= "toFile(" <string> ")" "withFormat" <format>
-                       | "toConsole" "withFormat" <format>
-<format> ::= "json"
-           | "text"
+result_strategy ::= result_expr output_destination ;
+result_expr ::= "results" ( "get" elem_property )? ;
+elem_property ::= "tag" | "id" | "attr(" string ")" | "text" | "outerHtml" ;
+aggregate_block ::= "aggregate:" aggregation ;
+aggregation ::= "_ ++ _"
+output_destination ::= "toFile(" string ")" "withFormat" format
+                     | "toConsole" "withFormat" format ;
+format ::= "json" | "text" ;
 
-<time> ::= <number> "." <unit>
-<unit> ::= "seconds"
-<number> ::= [0-9]+
-<string> ::= "\"" [^"]* "\""
+time ::= number "." unit ;
+unit ::= "seconds" ;
+number ::= [0-9]+ ;
+string ::= "\"" [^\"]* "\"" ;
+
 ```
 
 ## Examples of Usage
