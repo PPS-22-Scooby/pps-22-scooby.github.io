@@ -70,18 +70,3 @@ it's removed from the system.
     
 @enduml
 ```
-
-## Exploration Policy
-
-An Exploration Policy describe the way crawlers fetch links from a page. It's represented by a function that receive as input a
-HTML Document (Crawl Document) and that returns an iterable of URLs.
-
-As example, we can describe an exploration policy that only fetch same domain urls:
-
-```Scala
-def sameDomainLinks: ExplorationPolicy = (document: CrawlDocument) =>
-    document.frontier.filter(_.domain == document.url.domain)
-```
-It's important to note that all crawlers will assume the same exploration policy inside the system and that should be configured
-at application startup.
-
