@@ -45,8 +45,8 @@ The structure of the project is divided into three principal components: the DSL
     }
     
     core --> scoobyConfiguration
-    core .u.> utils: <<uses>>
-    DSL ..> scoobyConfiguration : <<uses>>
+    core .u.> utils
+    DSL ..> scoobyConfiguration
   
     DSL -d-> userDSL
 @enduml
@@ -211,6 +211,19 @@ The [DSL](DSL.md) component is responsible for managing the way the user configu
 language. Every main entity in the system has a corresponding set of operations that can be used for produce a desired configuration
 described by a `Configuration` object, that will then be used by the `Scooby` entity to start the system.
 
+```plantuml
+@startuml
+    
+    [Entrypoint] ..> [Macros]
+    
+    [Entrypoint] ..> [DSL]
+    [Entrypoint] ..> [Config]
+    [Crawl] ..> [DSL]
+    [Scrape] ..> [DSL]
+    [Export] ..> [DSL]
+    [HTML] ..> [DSL]
+@enduml
+```
 
 ## Utils
 The `utils` component contains utility classes and functions that are used by the core entities. 
@@ -221,10 +234,7 @@ the content of a web page.
 ```plantuml
 @startuml Document
     hide empty members
-    class Document {
-        content: String
-        url: URL
-    }
+    class Document
     
     class ScrapeDocument extends Document 
     class CrawlDocument extends Document 
@@ -265,3 +275,25 @@ to extract data from the page.
 
 [HTTP](HTTP.md) is a utility component that allows to wrap a HTTP client library for download and parse the content of a 
 web page with a given simple and easy to use API.
+
+```plantuml
+@startuml
+hide empty members
+class Request
+
+class HttpError
+interface Backend<R> << trait >>
+
+class RequestBuilder
+RequestBuilder ..> Request: <<uses>>
+
+class HttpClient
+
+Backend --|> HttpClient
+Backend <.. Request: <<uses>>
+HttpClient <. Request: <<uses>>
+HttpClient ..> ClientConfiguration: <<uses>>
+Request ..> HttpError: <<uses>>
+class ClientConfiguration
+@enduml
+```
