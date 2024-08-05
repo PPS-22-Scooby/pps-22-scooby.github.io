@@ -1,79 +1,136 @@
-# About docs
+# Get started
 
-<!--Writerside adds this topic when you create a new documentation project.
-You can use it as a sandbox to play with Writerside features, and remove it from the TOC when you don't need it anymore.-->
+To start using Scooby from a new SBT project you need to manually add the library.
+- start generating the new project using SBT;
+- download the latest release of the Scooby library;
+- create a new `lib` folder inside your sbt project;
+- place the downloaded jar inside the `lib` folder you've just created;
+- create a class that extends either `org.unibo.scooby.dsl.ScoobyEmbeddable` or `org.unibo.scooby.dsl.ScoobyApplication`
 
-## Add new topics
-You can create empty topics, or choose a template for different types of content that contains some boilerplate structure to help you get started:
 
-![Create new topic options](new_topic_options.png){ width=290 }{border-effect=line}
+To import the application in a different scala file, all is required is
 
-## Write content
-%product% supports two types of markup: Markdown and XML.
-When you create a new help article, you can choose between two topic types, but this doesn't mean you have to stick to a single format.
-You can author content in Markdown and extend it with semantic attributes or inject entire XML elements.
+```Scala
+import org.unibo.scooby.Application.scooby
+import org.unibo.scooby.dsl.ScoobyApplication
 
-## Inject XML
-For example, this is how you inject a procedure:
+object MyObject extends ScoobyApplication:
 
-<procedure title="Inject a procedure" id="inject-a-procedure">
-    <step>
-        <p>Start typing and select a procedure type from the completion suggestions:</p>
-        <img src="completion_procedure.png" alt="completion suggestions for procedure" border-effect="line"/>
-    </step>
-    <step>
-        <p>Press <shortcut>Tab</shortcut> or <shortcut>Enter</shortcut> to insert the markup.</p>
-    </step>
-</procedure>
+  scooby:
+    config:
+      network:
+        Timeout is 9.seconds
+        MaxRequests is 10
+        headers:
+          "User-Agent" to "Scooby/1.0-alpha (https://github.com/PPS-22-Scooby/PPS-22-Scooby)"
+      options:
+        MaxDepth is 2
+        MaxLinks is 20
+    
+    crawl:
+      url:
+        "https://www.myTestUrl.com"
+      policy:
+        hyperlinks not external
+    scrape:
+      elements
+    exports:
+      batch:
+        strategy:
+          results get(el => (el.tag, el.text)) output:
+            toFile("test.json") withFormat json
+        aggregate:
+          _ ++ _
+      streaming:
+        results get tag output:
+          toConsole withFormat text
+```
 
-## Add interactive elements
+## Customization
 
-### Tabs
-To add switchable content, you can make use of tabs (inject them by starting to type `tab` on a new line):
+Provided DSL is open to customization, we offer a brief introduction to explore possible configurations.
 
-<tabs>
-    <tab title="Markdown">
-        <code-block lang="plain text">![Alt Text](new_topic_options.png){ width=450 }</code-block>
-    </tab>
-    <tab title="Semantic markup">
-        <code-block lang="xml">
-            <![CDATA[<img src="new_topic_options.png" alt="Alt text" width="450px"/>]]></code-block>
-    </tab>
-</tabs>
+### Network
 
-### Collapsible blocks
-Apart from injecting entire XML elements, you can use attributes to configure the behavior of certain elements.
-For example, you can collapse a chapter that contains non-essential information:
+In order to enlarge visit to websites which require user authentication, it is possible to define multiple headers in
+headers section as
 
-#### Supplementary info {collapsible="true"}
-Content under a collapsible header will be collapsed by default,
-but you can modify the behavior by adding the following attribute:
-`default-state="expanded"`
+```Scala
+headers:
+  "my-header-name-1" to "my-header-value-1"
+  "my-header-name-2" to "my-header-value-2"
+```
 
-### Convert selection to XML
-If you need to extend an element with more functions, you can convert selected content from Markdown to semantic markup.
-For example, if you want to merge cells in a table, it's much easier to convert it to XML than do this in Markdown.
-Position the caret anywhere in the table and press <shortcut>Alt+Enter</shortcut>:
+### Crawler
 
-<img src="convert_table_to_xml.png" alt="Convert table to XML" width="706" border-effect="line"/>
+It is possible to define custom policies, which must adhere to type ```CrawlDocument ?=> Iterable[URL]```.
+An example could be:
+```Scala
+policy:
+  allLinks not external
+```
 
-## Feedback and support
-Please report any issues, usability improvements, or feature requests to our
-<a href="https://youtrack.jetbrains.com/newIssue?project=WRS">YouTrack project</a>
-(you will need to register).
+### Scraper
 
-You are welcome to join our
-<a href="https://jb.gg/WRS_Slack">public Slack workspace</a>.
-Before you do, please read our [Code of conduct](https://plugins.jetbrains.com/plugin/20158-writerside/docs/writerside-code-of-conduct.html).
-We assume that you’ve read and acknowledged it before joining.
+It is possible to define custom policies, which must adhere to type ```ScrapeDocument ?=> Iterable[T]```.
+It is also possible to mix policies using boolean filter conditions.
+An example could be:
 
-You can also always email us at [writerside@jetbrains.com](mailto:writerside@jetbrains.com).
+```Scala
+scrape:
+  elements that :
+    haveAttributeValue("href", "level1.1.html") and haveClass("amet") or followRule {
+      element.id == "ipsum"
+    }
+```
 
-<seealso>
-    <category ref="wrs">
-        <a href="https://plugins.jetbrains.com/plugin/20158-writerside/docs/markup-reference.html">Markup reference</a>
-        <a href="https://plugins.jetbrains.com/plugin/20158-writerside/docs/manage-table-of-contents.html">Reorder topics in the TOC</a>
-        <a href="https://plugins.jetbrains.com/plugin/20158-writerside/docs/local-build.html">Build and publish</a>
-        <a href="https://plugins.jetbrains.com/plugin/20158-writerside/docs/configure-search.html">Configure Search</a>
-    </category>
-</seealso>
+### Exporter
+
+It is possible to define both batch and streaming strategies, even multiple times, concatenating their effects.
+An example could be:
+
+```Scala
+exports:
+  batch:
+    strategy:
+      results get(el => (el.tag, el.text)) output:
+        toFile("testJson.txt") withFormat json
+    
+    aggregate:
+      _ ++ _
+  batch:
+    strategy:
+      results get(el => (el.tag, el.text)) output:
+        toFile("testText.txt") withFormat text
+
+    aggregate:
+      _ ++ _
+  streaming:
+    results get tag output:
+      toConsole withFormat text
+```
+
+When output is configured toFile, it's possible to define preferred file action, between Append (append results to
+already existing text in file) and Overwrite (which delete previous content of the file).
+Default behavior if not specified is Overwrite.
+
+```Scala
+exports:
+  batch:
+    strategy:
+      results get(el => (el.tag, el.text)) output:
+        toFile("testJson.txt", Append) withFormat json
+    
+    aggregate:
+      _ ++ _
+  batch:
+    strategy:
+      results get(el => (el.tag, el.text)) output:
+        toFile("testText.txt", Overwrite) withFormat text
+
+    aggregate:
+      _ ++ _
+  streaming:
+    results get tag output:
+      toConsole withFormat text
+```
