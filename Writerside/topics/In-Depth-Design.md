@@ -61,6 +61,7 @@ is the entity responsible for the system start-up and management.
 ### Crawler
 ```plantuml
 @startuml Crawler
+    hide empty members
     interface Document <<trait>>
     interface CrawlDocument <<trait>> extends Document 
     interface HTTP <<trait>>
@@ -87,6 +88,7 @@ extracts the relevant information, and sends the results to an exporter.
 
 ```plantuml
 @startuml Scraper
+    hide empty members
     interface Document <<trait>>
     interface ScrapeDocument <<trait>> extends Document 
     interface Result <<trait>>
@@ -115,7 +117,7 @@ robot file of the website.
 
 ```plantuml
 @startuml Coordinator
-    
+    hide empty members
     class Crawler <<(A, #FF7700) Actor>>
     class Coordinator <<(A, #FF7700) Actor>>
     interface CoordinatorPolicy <<trait>>
@@ -136,10 +138,6 @@ robot file of the website.
 | `SetupRobots(url: URL)`                                                       | Parse and obtain rules for the robot file of the url |
 | `CheckPages(pages: List[URL], replyTo: ActorRef[CrawlerCoordinatorResponse])` | Check the pages fetched by a Crawler                 |
 | `SetCrawledPages()`                                                           | Set a predefined set of crawled page.                |
-| `GetCrawledPages(replyTo: ActorRef[List[URL]])`                               | ???                                                  |
-| `PagesChecked(result: Iterator[String])`                                      | ???                                                  |
-
-
 
 ### Exporter
 The [Exporter](Exporter.md) is an actor responsible for exporting the scraped data. It receives the results from a [Scraper](Scraper.md) and exports them in a specific format.
@@ -149,6 +147,7 @@ For both kind of exporters, is possible to define a behaviour that specify the f
 
 ```plantuml
 @startuml Exporter
+    hide empty members
     interface Result <<trait>>
     
     class Exporter <<(A, #FF7700) Actor>>
@@ -183,10 +182,35 @@ For both kind of exporters, is possible to define a behaviour that specify the f
 Scooby is the main entity of the system, responsible for starting the system and managing the entities. 
 It receives a `Configuration` object that describes the desired settings and starts the system accordingly.
 
+```plantuml
+@startuml
+    hide empty members
+    class Scooby <<(A, #FF7700) Actor>>
+    class Configuration
+    
+    
+    class CrawlerConfiguration extends Configuration
+    class ScraperConfiguration extends Configuration
+    class ExporterConfiguration extends Configuration
+    class CoordinatorConfiguration extends Configuration
+    
+    Scooby ..> Configuration: <<uses>>  
+@enduml
+```
+
+#### Scooby Messages
+| Message | Description                                                          |
+|---------|----------------------------------------------------------------------|
+| `Start` | Starts the application.                                              |
+| `RobotsChecked(found: Boolean)` | Signal that the operations for checking the Robot file are finished. |
+| `ExportFinished` | Signal the end of exporting operations.                              |
+
+
 ## DSL
 The [DSL](DSL.md) component is responsible for managing the way the user configures the system using our custom internal domain-specific 
 language. Every main entity in the system has a corresponding set of operations that can be used for produce a desired configuration
 described by a `Configuration` object, that will then be used by the `Scooby` entity to start the system.
+
 
 ## Utils
 The `utils` component contains utility classes and functions that are used by the core entities. 
@@ -196,6 +220,7 @@ the content of a web page.
 ### Document
 ```plantuml
 @startuml Document
+    hide empty members
     class Document {
         content: String
         url: URL
@@ -204,34 +229,16 @@ the content of a web page.
     class ScrapeDocument extends Document 
     class CrawlDocument extends Document 
     
-    interface HTMLExplorer <<trait>> {
-         - parseDocument(using parser: Parser[HTMLDom]): HTMLDom
-    }
+    interface HTMLExplorer <<trait>>
     
-    interface LinkExplorer <<trait>> extends HTMLExplorer, RegExpExplorer{
-        +frontier(): Seq[URL]
-        +group(toGroup: Iterator[Regex.Match]): Seq[String]
-    }
+    interface LinkExplorer <<trait>> extends HTMLExplorer, RegExpExplorer
+    interface EnhancedLinkExplorer <<trait>> extends HTMLExplorer
     
-    interface EnhancedLinkExplorer <<trait>> extends HTMLExplorer {
-        getAllLinkOccurrences: Seq[URL]
-    }
+    interface SelectorExplorer <<trait>> extends HTMLExplorer
     
-    interface SelectorExplorer <<trait>> extends HTMLExplorer {
-        + select(selector: String): Seq[String]
-    }
+    interface CommonHTMLExplorer <<trait>> extends HTMLExplorer
     
-    interface CommonHTMLExplorer <<trait>> extends HTMLExplorer {
-        + getElementById(id: String): Option[HTMLElement]
-        + getElementsByTag(tag: String): Seq[HTMLElement]
-        + getElementsByClass(className: String): Seq[HTMLElement]
-        + getAllElements: Seq[HTMLElement]
-    }
-    
-    interface RegExpExplorer <<trait>> extends HTMLExplorer {
-        + find(regExp: String): Seq[String]
-        + group(toGroup: Iterator[Regex.Match]): Seq[String]
-    }
+    interface RegExpExplorer <<trait>> extends HTMLExplorer
     
     LinkExplorer .u.> CrawlDocument: <<mixin>>
     
