@@ -30,4 +30,16 @@
         <description>Created after removal of "HTML" from docs</description>
         <accepts>HTML.html</accepts>
     </rule>
+    <rule id="27c6b7bd">
+        <description>Created after removal of "Scraper uml" from Scooby</description>
+        <accepts>Scraper-uml.html</accepts>
+    </rule>
+    <rule id="7eb0e08b">
+        <description>Created after removal of "Application UML" from Scooby</description>
+        <accepts>Application-UML.html</accepts>
+    </rule>
+    <rule id="64e97de4">
+        <description>Created after removal of "Uml" from Scooby</description>
+        <accepts>Umls.html</accepts>
+    </rule>
 </rules>
