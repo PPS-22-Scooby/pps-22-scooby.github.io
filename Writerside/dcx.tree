@@ -8,6 +8,8 @@
 
     <toc-element topic="starter-topic.md"/>
     <toc-element topic="Scooby-application-lifecycle.md"/>
+    <toc-element toc-title="API Reference"
+                 target-for-accept-web-file-names="https://pps-22-scooby.github.io/PPS-22-Scooby/api/"/>
     <toc-element topic="Report.md">
         <toc-element topic="Development-process.md"/>
         <toc-element topic="Requirements.md"/>
