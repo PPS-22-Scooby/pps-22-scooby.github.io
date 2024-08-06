@@ -5,7 +5,7 @@
 The project aim to build an application that allow users to scrape and crawl web pages.
 
 Main entities involved:
-- **Crawler**: Entity which navigates through web pages' links, building a data structure which contains all visited pages; 
+- **Crawler**: Entity which navigates through web pages links, building a data structure which contains all visited pages; 
 - **Scraper**: Entity which collects data from web pages;
 - **Exporter**: Entity which exports collected data in a readable format.
 
@@ -21,7 +21,7 @@ interact with the application.
 - Ability to extract specific data points, such as text, links, and metadata;
 - Application should support multiple web scraping strategies, such as CSS selectors and Regular Expressions;
 - Application should support distributed crawling, with the ability to scale horizontally by adding more nodes;
-- Implement network configurations to enhance the possibility to run on a wider range of websites (i.e. the ones which require user authentication);
+- Implement network configurations to enhance the possibility to run on a wider range of websites (i.e. the ability to specify headers);
 - Implement fault tolerance to handle errors gracefully;
 - Graceful handling of network issues, server timeouts, and other potential disruptions;
 - Application should log all errors and provide detailed reports for troubleshooting;
@@ -60,5 +60,4 @@ succeed CAPTCHA tests for instance.
 ## Optional Requirements
 
 - Users should be able to stop and resume the application;
-- Exporter phase should lay on multiple exporters to enhance system performances;
 - A GUI should be implemented to enhance data visualization.
