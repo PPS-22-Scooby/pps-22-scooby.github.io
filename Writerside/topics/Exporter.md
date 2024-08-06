@@ -75,12 +75,12 @@ Exporter <|-- StreamExporter
 Exporter <|-- BatchExporter
 
 class StreamExporter<T>  <<(A, #FF7700) Actor>> {
-    exportingBehavior: Result[T] => Unit
+    exportingBehavior: ExportingBehavior<T>
 }
 
 class BatchExporter<T> <<(A, #FF7700) Actor>> {
-    exportingBehavior: Result[T] => Unit
-    aggregationBehavior: (Result[T], Result[T]) => Result[T]
+    exportingBehavior: ExportingBehavior<T>
+    aggregationBehavior: AggregationBehavior<T>
 }
 
 enum ExporterCommands {
@@ -98,18 +98,25 @@ Exporter ..> Result: <<uses>>
 hide empty members
 
 class ExportingBehaviors<<(O, #906901) Object>> {
-    writeOnFile(path: Path, format: Result[A] => String): Result[T] => Unit
-    writeOnConsole(format: Result[A] => String): Result[T] => Unit
+    writeOnFile(path: Path, format: FormattingBehavior<T>): ExportingBehavior<T>
+    writeOnConsole(format: FormattingBehavior<T>): ExportingBehavior<T>
 }
 
 class FormattingBehaviors<<(O, #906901) Object>> {
-    string: Result[T] => String
-    json: Result[T] => String
+    string: FormattingBehavior<T>
+    json: FormattingBehavior<T>
 }
+
+protocol FormattingBehavior<T>
+protocol AggregationBehavior<T>
+protocol ExportingBehavior<T>
 
 ExportingBehaviors ..> FormattingBehaviors: <<uses>>
 StreamExporter ..> ExportingBehaviors: <<uses>>
 BatchExporter ..> ExportingBehaviors: <<uses>>
+Exporter ..> ExportingBehavior: <<uses>>
+FormattingBehaviors ..> FormattingBehavior: <<uses>>
+BatchExporter ..> AggregationBehavior: <<uses>>
 
 @enduml
 ```
