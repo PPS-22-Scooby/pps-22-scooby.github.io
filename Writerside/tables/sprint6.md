@@ -3,7 +3,7 @@
 | PPS-61    | Coordinator: add validation rules                             | Domain implementation | Giovanni Antonioni                                                  | 1h         | 1h     | Dev           |
 | PPS-55    | Integration between Scraper and Exporter                      | Integration           | Giovanni Antonioni                                                  | 3h         | 5h     | Integration   |
 | PPS-45    | Exporter Actor                                                | Actor implementation  | Giovanni Antonioni, Francesco Magnani                               | 4h         | 2h     | Dev           |
-| PPS-60    | Create configuration classes                                  | Utilities             | Valerio Di Zio, Francesco Magnani                                   | 7h         | 5h     | Dev           |
+| PPS-60    | Create configuration classes                                  | Configuration library | Valerio Di Zio, Francesco Magnani                                   | 7h         | 5h     | Dev           |
 | PPS-47    | Parameterize the application startup                          | Entrypoint            | Giovanni Antonioni, Valerio Di Zio, Luca Rubboli, Francesco Magnani | 2h         | 1h 30m | Design        |
 | PPS-48    | Scooby Class                                                  | Entrypoint            | Giovanni Antonioni, Valerio Di Zio, Luca Rubboli, Francesco Magnani | 4h         | 3h     | Dev           |
 | PPS-59    | Define the status of terminated computation                   | Actor orchestration   | Francesco Magnani                                                   | 4h         | 3h     | Fix           |
