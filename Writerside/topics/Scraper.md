@@ -9,14 +9,17 @@ Interaction between other system entities can be depicted with the following dia
 ```plantuml
 @startuml
 participant Crawler as crawler order 10
+activate crawler
 actor Scraper as scraper order 20
 participant Exporter as exporter order 30
 
 crawler->scraper :Create(scraper configs)
+activate scraper
 crawler->scraper : Scrape(document)
 scraper->scraper : Apply policies to document
 scraper->exporter : Export(result)
-scraper->scraper : Stop
+activate exporter
+destroy scraper
 @enduml
 ```
 
@@ -50,9 +53,7 @@ enum ScraperCommand {
     Scrape(document:ScrapeDocument)
 }
 
-class ScraperPolicy<T> {
-    apply(document: ScrapeDocument): Iterable[T]
-}
+protocol ScraperPolicy<T> 
 
 class Scraper<<(A, #FF7700) Actor>> {
     exporter: ActorRef[ExporterCommands]
