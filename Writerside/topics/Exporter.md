@@ -1,7 +1,7 @@
 # Exporter
 
 An **Exporter** is a system entity responsible for exporting the results obtained by scrapers. Exporters primarily
-interact with the [Scrapers](Scraper.md) receiving results and exporting them according to a specific **Exporting
+interact with the [Scrapers](Scraper.md), receiving results and exporting them according to a specific **Exporting
 Behavior**. Each Scraper is aware of the available Exporters and forwards the results to them accordingly.
 
 **Exporting Behaviors** define how the results should be processed (e.g., writing to a file, displaying on standard
