@@ -12,9 +12,14 @@ start
 :Spawn Scooby actor;
 |Scooby|
 :Spawn Coordinator actor;
-|Coordinator|
-:Setup robots.txt;
-|Scooby|
+fork
+    |Scooby|
+    :Idle;
+fork again
+    |Coordinator|
+    :Setup robots.txt;
+    |Scooby|
+end fork
 :Spawn Exporter actors;
 :Spawn Root Crawler actor;
 -> Start callback;
