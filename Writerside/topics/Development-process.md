@@ -6,6 +6,12 @@ applying insights gained during the course.
 The project was managed in an agile manner to maximize **teamwork**. Automatic tools tailored for this development were
 used, promoting both personal and group growth through frequent interactions among team members.
 
+## Roles
+
+* _Domain expert_: Giovanni Antonioni, providing technical guidance and quality assurance
+* _Product owner_: Valerio Di Zio, coordinating the team and planning sprint activities
+* _Developer_: Giovanni Antonioni, Valerio Di Zio, Luca Rubboli and Francesco Magnani
+
 ## Meetings
 
 The team engaged in various types of meetings throughout the project development.
