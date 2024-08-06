@@ -32,6 +32,15 @@
             <toc-element topic="Luca-Rubboli.md"/>
         </toc-element>
         <toc-element topic="Retrospective.md"/>
-        <toc-element topic="Backlog.md"/>
+        <toc-element topic="Backlog.md">
+            <toc-element topic="Sprint-1.md"/>
+            <toc-element topic="Sprint-2.md"/>
+            <toc-element topic="Sprint-3.md"/>
+            <toc-element topic="Sprint-4.md"/>
+            <toc-element topic="Sprint-5.md"/>
+            <toc-element topic="Sprint-6.md"/>
+            <toc-element topic="Sprint-7.md"/>
+            <toc-element topic="Sprint-8.md"/>
+        </toc-element>
     </toc-element>
 </instance-profile>
