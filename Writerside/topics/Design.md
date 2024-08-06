@@ -20,15 +20,15 @@ domain has been built:
 
 ## Reactive Entities
 
-- **Crawler**: Fetches links from pages and spawn new crawlers to analyze them.
-- **Scraper**: Extracts data from a page.
-- **Coordinator**: Single entity which manages the system and coordinates crawlers.
+- **Crawler**: Fetches links from pages and spawn new crawlers to analyze them;
+- **Scraper**: Extracts data from a page;
+- **Coordinator**: Single entity which manages the system and coordinates crawlers;
 - **Exporter**: Exports scraped data.
 
 ## Passive Entities
-- **Document**: Represent an HTML document fetched from a URL.
-- **ScrapeDocument**: Represent a facade of a document that can be scraped.
-- **CrawlDocument**: Represent a facade of a document that can be crawled.
+- **Document**: Represent an HTML document fetched from a URL;
+- **ScrapeDocument**: Represent a facade of a document that can be scraped;
+- **CrawlDocument**: Represent a facade of a document that can be crawled;
 - **Result**: Represents a result of a scraping operation. 
 
 ## General UML

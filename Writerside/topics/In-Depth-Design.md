@@ -3,8 +3,8 @@
 ## Project Structure
 The structure of the project is divided into three principal components: the DSL, the core, and the utils:
 
-- The **core** component is the heart of the system, containing the main entities and the logic to manage them.
-- The **DSL** components manages the way the user configures the system using our custom internal domain-specific language.
+- The **core** component is the heart of the system, containing the main entities and the logic to manage them;
+- The **DSL** components manages the way the user configures the system using our custom internal domain-specific language;
 - The **utils** component contains utility classes and functions.
 
 ```plantuml
@@ -72,8 +72,8 @@ is the entity responsible for the system start-up and management.
     Crawler ..> HTTP: <<uses>>
 @enduml
 ```
-A [Crawler](Crawler.md) is the actor responsible for searching and exploring links on web pages. It interacts with a coordinator to validate found URLs, creates [scrapers](Scraper.md) to extract data, and 
-spawns new crawlers to explore new URLs.A is able to download the content of a web page using the [HTTP](HTTP.md) utility class and parse it with the [Document](Document.md) component of the `utils` package.
+A [Crawler](Crawler.md) is an actor responsible for searching and exploring links on web pages. It interacts with a coordinator to validate found URLs, creates [scrapers](Scraper.md) to extract data, and 
+spawns new crawlers to explore new URLs. A [Crawler](Crawler.md) is able to download the content of a web page using the [HTTP](HTTP.md) utility class and parse it with the [Document](Document.md) component of the `utils` package.
 
 #### Crawler Messages
 | Message | Description                                                                                                |
@@ -84,7 +84,7 @@ spawns new crawlers to explore new URLs.A is able to download the content of a w
 
 ### Scraper
 A [Scraper](Scraper.md) is an actor responsible for extracting data from a web page. It receives a document from a crawler, 
-extracts the relevant information, and sends the results to an exporter.
+extracts the relevant information, and sends the results to one or more exporters.
 
 ```plantuml
 @startuml Scraper
@@ -110,8 +110,8 @@ extracts the relevant information, and sends the results to an exporter.
 | `Scrape(document: ScrapeDocument)`                  | Starts to scrape a specific document |
 
 ### Coordinator
-The Coordinator is an actor that validates the URLs found by Crawlers. Usually the checks are based on a set of rules defined by the user, defining a 
-policy that dictates which URLs are valid and which are not. Coordinators also control's if a url was already visited by a crawler and if it's allowed in the 
+The [Coordinator](Coordinator.md) is an actor that validates the URLs found by Crawlers. Usually the checks are based on a set of rules defined by the user, defining a 
+policy that dictates which URLs are valid and which are not. [Coordinator](Coordinator.md) also control's if a url was already visited by a crawler and if it's allowed in the 
 robot file of the website.
 
 
