@@ -64,7 +64,7 @@ the [Robot Exclusion Protocol](https://en.wikipedia.org/wiki/Robots.txt). This c
 actor, and we must ensure that URL exclusion rules are applied before any Crawler requests URL validation. Thus,
 checking `robots.txt` is a blocking step that must be completed before any Crawler is spawned and begins crawling.
 
-For more details, see the Coordinator section.
+For more details, see the [Coordinator](Coordinator.md) section.
 
 ## Crawler Tree
 
