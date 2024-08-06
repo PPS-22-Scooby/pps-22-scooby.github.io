@@ -4,6 +4,16 @@ In general, adopting SCRUM principles and mostly split the workload in sprints h
 a fair load balancing; further details of each sprint will be depicted in <a href="Backlog.md">Backlog</a> section.
 
 ## Giovanni Antonioni
+Working on this project has been a fulfilling experience, more than I expected. We've been able to develop a complex
+library from scratch, in a relatively short amount of time, challenging ourselves with a new paradigm and language. I 
+really appreciated, more that the development phase, the way we've structured the amount of work for the project, using
+the SCRUM methodology and the Agile principles. 
+
+Developing the core of the application using Scala and Akka was a great choice, as it allowed to model the system in a
+more natural way, and easily manage the concurrency and parallelism of the system.
+
+I've been able to apply the TDD methodology, which I've never used before, and I found it very useful to structure the
+code and the tests in a more organized way. Personally, I'm satisfied with the work I've done, and I'm proud of the results we've achieved.
 
 ## Valerio Di Zio
 
