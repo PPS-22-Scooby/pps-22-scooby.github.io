@@ -69,4 +69,4 @@ synchronous (using a `Response` class) or asynchronous (using `Future[Response]`
 ## New API and Deserializer Mechanism
 
 This HTTP library has been reviewed, with a new API designed and implemented to improve usability. Since it focuses more
-on implementation than design, a detailed description can be found [here](Francesco-Magnani.md#http-library-new-api).
+on implementation than design, a detailed description can be found [here](Francesco-Magnani.topic#http-library-new-api).

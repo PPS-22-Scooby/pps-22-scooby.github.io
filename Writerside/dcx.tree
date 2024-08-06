@@ -28,7 +28,7 @@
         <toc-element topic="Implementation.md">
             <toc-element topic="Giovanni-Antonioni.md"/>
             <toc-element topic="Valerio-Di-Zio.md"/>
-            <toc-element topic="Francesco-Magnani.md"/>
+            <toc-element topic="Francesco-Magnani.topic"/>
             <toc-element topic="Luca-Rubboli.md"/>
         </toc-element>
         <toc-element topic="Retrospective.md"/>
