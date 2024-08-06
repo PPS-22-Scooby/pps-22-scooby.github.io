@@ -36,6 +36,7 @@ it's removed from the system.
 
 ```plantuml
 @startuml Crawler
+    hide empty members
     enum CrawlerCommand {
         Crawl(url:URL)
         CrawlerCoordinatorResponse(result: Iterator[URL])

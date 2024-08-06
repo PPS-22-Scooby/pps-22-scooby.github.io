@@ -34,6 +34,7 @@ domain has been built:
 ## General UML
 ```plantuml
 @startuml Crawler
+    hide empty members
     interface Document
     interface ScrapeDocument extends Document
     interface CrawlDocument extends Document

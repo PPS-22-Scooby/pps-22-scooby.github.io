@@ -26,7 +26,7 @@ scraper->scraper : Stop
 ```plantuml
 
 @startuml Scraper
-
+hide empty members
 class Crawler<<(A, #FF7700) Actor>> {
     exporter: ActorRef[ExporterCommands]
     scraper: ActorRef[ScraperCommands]

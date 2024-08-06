@@ -16,6 +16,19 @@ I've been able to apply the TDD methodology, which I've never used before, and I
 code and the tests in a more organized way. Personally, I'm satisfied with the work I've done, and I'm proud of the results we've achieved.
 
 ## Valerio Di Zio
+The project proved to be both highly challenging and immensely educational. 
+The adoption of the SCRUM methodology was instrumental in establishing a structured 
+yet adaptable approach to work management, resulting in enhanced team productivity and 
+streamlined communication amongst team members.
+
+The work on library development, using Scala and Akka, was a great opportunity to delve into both technologies. 
+The ability to model the system naturally and manage the complexities of the project through the actor paradigm 
+was an interesting and highly educational discovery. In addition, the creation of continuous testing had a positive 
+impact on the way I approached code and testing, helping to maintain a high standard of quality.
+
+I am very pleased with the results achieved and the experience gained. This project not only broadened my technical 
+skills, but also strengthened my ability to work in a team and approach complex challenges in a collaborative and structured manner.
+
 
 ## Francesco Magnani
 
