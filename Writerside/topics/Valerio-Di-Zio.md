@@ -42,9 +42,8 @@ Is possible to define the following states:
 ```
 
 ### Robots.txt
-For the translation of the robots.txt file into a set of non-visitable paths, 
-a parser was created that takes as input a string, the contents of the robots.txt file, 
-translates it into a set of non-visitable paths
+For the translation of the robots.txt file into a set of non-visitable paths,
+a parser was created that takes the contents of the robots.txt file as input and translates it into a set of non-visitable paths
 ```Scala
   def parseRobotsTxt(robotsTxt: String): Set[String] =
     if robotsTxt.isEmpty then return Set.empty
@@ -67,7 +66,7 @@ translates it into a set of non-visitable paths
               (userAgent, disallowRules)
     disallowRules.toSet
 ```
-Then the coordinator will retrieve this list and prevent a crawler from parsing the paths that contain the paths specified as "Disallow" in robots.txt
+Then the coordinator will retrieve this list and prevent a crawler from parsing the paths specified as ‘Disallow’ in robots.txt
 
 ### Crawler
 My contribution to the creation of the crawler was to allow interaction with the coordinator, 
@@ -100,8 +99,7 @@ def checkPages(document: CrawlDocument): Unit =
 Regarding DSL, my contribution is about the keyword: *"crawl"* and allowing *headers* to be defined directly in the config.
 
 ### Crawl keyword
-The DSL operators defined in the **Crawl** object are designed to allow smooth and readable crawler configuration through natural language-like syntax. 
-These operators are used to specify where to start browsing, what crawling policies to adopt.
+The DSL operators defined in the **Crawl** object are designed to allow smooth and readable crawler configuration through natural language-like syntax. These operators are used to specify where to start browsing and what crawling policies to adopt.
 
 ```Scala
 case class CrawlContext(var url: String, var policy: ExplorationPolicy)
@@ -120,7 +118,7 @@ inline def crawl[T](block: CrawlScope)(using globalScope: ConfigurationWrapper[T
 
 ### Headers keyword
 The DSL provides a way to specify configurations such as network settings, headers for HTTP requests, and other options in a structured and readable manner.
-My role was to provide support for specifying headers to be used in the http request.
+My role was to provide support for specifying headers to be used in the HTTP request.
 ```Scala
 case class HeadersContext(var headers: Map[String, String])
 ```
@@ -138,7 +136,7 @@ This syntax sugar allows the user to write "HeaderName" to "HeaderValue" within 
 ### MockServer
 During the development of our application, it became apparent that reproducibility was necessary, and using real websites to test the application’s functionality was impractical for two main reasons:
 1. The structure of the HTML could change. 
-2. necessary tags and information might not consistently be available on a website to thoroughly test certain functionalities.
+2. Necessary tags and information might not consistently be available on a website to thoroughly test certain functionalities.
 
 To address this issue, a MockServer was created. This server is specifically designed to provide HTML resources solely for testing purposes and is shut down once testing is complete.
 
