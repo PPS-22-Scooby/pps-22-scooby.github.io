@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       id="starter-topic" title="Get started">
+
+    <title>
+        Get started
+    </title>
+    <p>To start using Scooby in a new SBT project, you need to manually add the library.</p>
+    <list>
+        <li>Generate a new project using SBT.</li>
+        <li>Download the JAR from the latest release of the Scooby library.</li>
+        <li>Create a new <code>lib</code> folder inside your SBT project.</li>
+        <li>Place the downloaded JAR inside the <code>lib</code> folder you've just created.</li>
+        <li>Create a class that extends either <code>org.unibo.scooby.dsl.ScoobyEmbeddable</code> or <code>org.unibo.scooby.dsl.ScoobyApplication</code>.
+        </li>
+    </list>
+    <p><code>ScoobyEmbeddable</code> is a Scala trait that can be added to a class to use the Scooby DSL without it
+        being executable. The <code>scooby</code> keyword will then return a <code>Future</code> containing the result
+        of the scraping. <code>ScoobyApplication</code>, on the other hand, can be extended by a Scala object to be
+        executable directly.</p>
+    <p>Here's the difference in their usage:</p>
+
+    <tabs>
+        <tab title="ScoobyEmbeddable">
+            <code-block lang="Scala" src="getStarted/ScoobyEmbeddable.scala">
+
+            </code-block>
+        </tab>
+        <tab title="ScoobyApplication">
+            <code-block lang="Scala" src="getStarted/ScoobyApplication.scala">
+
+            </code-block>
+        </tab>
+    </tabs>
+
+    <p>Here's instead a full example of the usage with <code>ScoobyApplication.</code></p>
+
+    <code-block lang="Scala" src="getStarted/FullExample.scala">
+
+    </code-block>
+    <chapter title="Customization" id="customization">
+        <p>Provided DSL is open to customization, we offer a brief introduction to explore possible configurations.</p>
+        <chapter title="Network" id="network">
+            <p>In order to enlarge visit to websites which require user authentication, it is possible to define
+                multiple headers in
+                headers section as</p>
+
+            <code-block lang="Scala">
+                headers:
+                  &quot;my-header-name-1&quot; to &quot;my-header-value-1&quot;
+                  &quot;my-header-name-2&quot; to &quot;my-header-value-2&quot;
+            </code-block>
+        </chapter>
+        <chapter title="Crawler" id="crawler">
+            <p>It is possible to define custom policies, which must adhere to type <code>CrawlDocument ?=&gt;
+                Iterable[URL]</code>.
+                An example could be:</p>
+
+            <code-block lang="Scala">
+                policy:
+                  allLinks not external
+            </code-block>
+        </chapter>
+        <chapter title="Scraper" id="scraper">
+            <p>It is possible to define custom policies, which must adhere to type <code>ScrapeDocument ?=&gt;
+                Iterable[T]</code>.
+                It is also possible to mix policies using boolean filter conditions.
+                An example could be:</p>
+
+            <code-block lang="Scala" src="getStarted/Scrape.scala">
+
+            </code-block>
+        </chapter>
+        <chapter title="Exporter" id="exporter">
+            <p>It is possible to define both batch and streaming strategies, even multiple times, concatenating their
+                effects.
+                An example could be:</p>
+
+            <code-block lang="Scala" src="getStarted/ExportsFirst.scala">
+
+            </code-block>
+
+            <p>When output is configured toFile, it's possible to define preferred file action, between Append (append
+                results to
+                already existing text in file) and Overwrite (which delete previous content of the file).
+                Default behavior if not specified is Overwrite.</p>
+
+            <code-block lang="Scala" src="getStarted/ExportsFileAction.scala">
+
+            </code-block>
+        </chapter>
+    </chapter>
+
+</topic>
