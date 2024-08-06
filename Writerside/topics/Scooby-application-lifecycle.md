@@ -17,14 +17,24 @@ start
 |Scooby|
 :Spawn Exporter actors;
 :Spawn Root Crawler actor;
-|Crawler|
 -> Start callback;
-:Start crawling; 
-|Scooby|
-:Wait for Root Crawler to finish;
+fork
+    |Scooby|
+    :Idle;
+fork again
+    |Crawler|
+    :Crawling; 
+    |Scooby|
+end fork
 :Signal the end of execution to all Exporters;
-|Exporter|
-:Export;
+fork
+    |Scooby|
+    :Idle;
+fork again
+    |Exporter|
+    :Export; 
+    |Scooby|
+end fork
 |Scooby|
 -> End callback;
 :Terminate actor system;
