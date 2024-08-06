@@ -6,21 +6,21 @@ Coordinators also control's if an url was already visited by a crawler and if it
 ```plantuml
 @startuml
 participant Crawler
-participant Robots
 actor Coordinator
+activate Coordinator
+Coordinator -> Coordinator: Setup robot
+activate Coordinator
+Coordinator -> Coordinator: Update disallowed list
+deactivate Coordinator
+?-> Crawler: Crawl(URL)
+activate Crawler
+Crawler -> Crawler: Find links
 
-Coordinator -> Robots: <<setup robot>>
-Robots -> Coordinator: <<disallowed list>>
-Coordinator -> Coordinator: <<update disallowed>>
+Crawler -> Coordinator: Check links
+Coordinator -> Coordinator: Update already visited
+Coordinator -> Crawler: Allowed links
 
-Crawler -> Crawler: <<root crawler creation>>
-Crawler -> Crawler: <<find links>>
-
-Crawler -> Coordinator: <<check links>>
-Coordinator -> Coordinator: <<update already visited>>
-Coordinator -> Crawler: <<allowed links>>
-
-Crawler -> Crawler: <<spawn children>>
+Crawler -> Crawler: Spawn children
 @enduml
 ```
 
@@ -43,7 +43,7 @@ Crawler -> Crawler: <<spawn children>>
         CheckPages(pages: List[URL], replyTo: ActorRef)
     }
     
-    protocol CoordinatorPolicy {
+    class CoordinatorPolicies <<(O, #906901) Object>> {
         defaultPolicy(): Policy
     }
     
@@ -52,11 +52,14 @@ Crawler -> Crawler: <<spawn children>>
         parseRobotsTxt(robotsTxt: String): Set[String]
     }
     
+    protocol Policy 
+    
     Crawler ..> Coordinator: <<signal>>
     Coordinator ..> Crawler: <<signal>>
     Coordinator ..> CoordinatorCommand: <<uses>>
     Coordinator ..> Robots: <<uses>>
-    Coordinator *-- CoordinatorPolicy
+    Coordinator ..> CoordinatorPolicies: <<uses>>
+    CoordinatorPolicies ..> Policy: <<uses>>
 @enduml
 ```
 
