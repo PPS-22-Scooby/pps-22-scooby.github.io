@@ -14,7 +14,7 @@
 
 * [Valerio Di Zio](Valerio-Di-Zio.md)
 * 
-* [Francesco Magnani](Francesco-Magnani.md)
+* [Francesco Magnani](Francesco-Magnani.topic)
 * 
 * [Luca Rubboli](Luca-Rubboli.md)
 

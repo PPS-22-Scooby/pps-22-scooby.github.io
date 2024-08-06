@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       id="Francesco-Magnani" title="Francesco Magnani">
+
+    <title>
+        Francesco Magnani
+    </title>
+    <p>The primary areas where I've contributed on the implementation side include:</p>
+    <list>
+        <li><a href="HTTP.md">HTTP library</a></li>
+        <li><a href="Document.md">Document library</a></li>
+        <li>Scooby's start/stop mechanisms</li>
+        <li>DSL structure, scraper section, and safety mechanisms</li>
+        <li>Scooby testing class</li>
+    </list>
+    <chapter title="HTTP library new API" id="http-library-new-api">
+        <p>After using the library in various scenarios, we noticed that the original usage could be cumbersome and
+            verbose. To
+            address this, we designed and implemented a new API to provide a more flexible and concise usage, adopting a
+            DSL-like
+            approach (reported here as it is an implementation detail)</p>
+        <p>For example, in the following snippets it's possible to see the comparison.</p>
+        <tabs>
+            <tab title="Old version" id="old-version">
+                <code-block lang="Scala">
+                    val client = SimpleHttpClient()
+                    val url = URL(&quot;www.example.com&quot;)
+                    val request: Either[HttpError, Request] = Request.builder
+                        .get()
+                        .at(url)
+                        .headers((&quot;Example-Header&quot;, &quot;Value&quot;))
+                        .build
+                    val response: Either[HttpError, Response] = request match
+                        case Left(_) =&gt; ... // error in building the request
+                        case Right(req) =&gt; req.send(client)
+                    val body: String = response match
+                        case Left(_) =&gt; ... // error in sending the request
+                        case Right(res) =&gt; res.body
+
+                    val document = ScrapeDocument(body, url)
+                </code-block>
+            </tab>
+            <tab title="New version">
+                <code-block lang="Scala">
+                    given SimpleHttpClient = SimpleHttpClient()
+
+                    val result: Either[HttpError, ScrapeDocument] =
+                        GET(&quot;www.example.com&quot;) sending:
+                            Headers:
+                                Seq((&quot;Example-Header&quot;, &quot;Value&quot;))
+                </code-block>
+            </tab>
+        </tabs>
+        <p>The new API relies on the
+            <control>Deserializer</control>
+            mechanism and the <code>PartialCall</code> class.
+        </p>
+
+        <code-block lang="plantuml">
+            @startuml
+            hide empty members
+
+            interface Deserializer&lt;R, T&gt; &lt;&lt; (T, #FF7700) Trait &gt;&gt; {
+            deserialize(response: R): Either[HttpError, T]
+            }
+
+            class PartialCall&lt;T, C: HttpClient &amp; Backend&gt; {
+            ...
+            }
+
+            PartialCall ..&gt; Deserializer: &lt;&lt;uses&gt;&gt;
+            @enduml
+        </code-block>
+        <p>Using Scala's <code>Conversion</code> system, calls are automatically routed through a <code>given</code>
+            Client with a <code>Backend</code> that works
+            with a specific response type. When a <code>Response</code> is received, a <code>given</code> deserializer
+            converts
+            the <code>Either[HttpError, Response]</code> into <code>Either[HttpError, T]</code>, where <code>T</code> is
+            inferred from the receiver variable's type (
+            e.g., a <code>ScrapeDocument</code>).</p>
+        <p>This mechanism simplifies and clarifies the library's usage while maintaining safety checks and error
+            management.</p>
+        <chapter title="Scooby Start/Stop Mechanisms" id="scooby-start-stop-mechanisms">
+            <p>The Scooby system utilizes the Akka actor system, making it crucial to manage the application's start and
+                stop processes
+                gracefully. The stopping process, in particular, is challenging because it requires ensuring all actors
+                have completed
+                their tasks and no longer need processing time.</p>
+            <p>To address this, we must understand the macro steps of execution and their interdependencies. A
+                comprehensive
+                description of this management is available <a href="Scooby-application-lifecycle.md">here</a>.</p>
+        </chapter>
+        <chapter title="DSL Scraper Keywords" id="dsl-scraper-keywords">
+            <p>The scraping keywords consist of a single instruction, <code>scrape</code>, which opens a
+                <code>Context</code> for defining the scraping
+                policy.</p>
+
+            <code-block lang="Scala">
+                /**
+                * Top-level keyword for defining the scraping behavior.
+                * @param block Definition of the scraping behavior
+                * @param globalScope Global Scooby scope (e.g., &quot;scooby: ...&quot;)
+                * @tparam T Type of the result returned by this scraping behavior
+                */
+                inline def scrape[T](block: ScrapeBehaviorScope[T])(using globalScope: ConfigurationWrapper[T]): Unit =
+                    catchRecursiveCtx[ScrapeDocument](&quot;scrape&quot;)
+                    scrapeOp(block)
+
+                /**
+                * Unsafe version of the one inside [[SafeOps]]
+                * @param block Definition of the scraping behavior
+                * @param globalScope Global Scooby scope (e.g., &quot;scooby: ...&quot;)
+                * @tparam T Type of the result returned by this scraping behavior
+                */
+                def scrapeOp[T](block: ScrapeBehaviorScope[T])(using globalScope: ConfigurationWrapper[T]): Unit =
+                    globalScope.configuration =
+                        globalScope.configuration.focus(_.scraperConfiguration.scrapePolicy).replace:
+                            doc =&gt;
+                                given ScrapeDocument = doc
+                                block
+
+                globalScope.scrapingResultSetting = ScrapingResultSetting[T]()
+            </code-block>
+            <p>Additional keywords can be used within this scope, depending on the type of data being scraped. Scraping
+                policies can
+                return results of any Scala type, not just HTML elements (e.g., tuples and strings). However, since the
+                target is
+                typically an HTML document, other keywords specifically facilitate working with HTML elements, offering
+                a more
+                language-assisted customization of the scraping policy.</p>
+            <p>For example, in the following snippet:</p>
+
+            <code-block lang="Scala">
+                scrape:
+                    elements that haveId(&quot;exampleId&quot;)
+            </code-block>
+            <p>Here, <code>that</code> is an alias for the Scala collection method <code>filter</code>, and
+                <code>haveId</code> is a method that generates a predicate
+                for HTML elements, making the expression compile in Scala. These keywords are implemented as follows:
+            </p>
+
+            <code-block lang="Scala">
+                def elements[D &lt;: Document &amp; CommonHTMLExplorer](using documentContext: D): Iterable[HTMLElement] =
+                    documentContext.getAllElements
+
+                extension [T](x: Iterable[T])
+                    inline infix def that(predicate: T =&gt; Boolean): Iterable[T] = x filter predicate
+
+                    infix def haveId(id: String): HTMLElementRule = _.id == id
+            </code-block>
+            <p>This approach is used throughout the DSL, making it highly customizable and enabling the creation of
+                various useful
+                keywords.</p>
+        </chapter>
+        <chapter title="DSL Safety Mechanism" id="dsl-safety-mechanism">
+            <p>Using Scala, <code>given</code>s can be risky if misused. Keywords like <code>scrape</code> and <code>scooby</code>
+                create scopes with a <code>given</code> context,
+                potentially allowing invalid programs to compile, such as with
+                <control>nested repeated scopes</control>
+                :
+            </p>
+
+            <code-block lang="Scala">
+                scrape:
+                    scrape:
+                        scrape:
+                            elements that haveId(&quot;exampleId&quot;)
+            </code-block>
+            <p>While this program is invalid, detecting multiple nested <code>given</code>s in Scala can be tricky. For
+                instance, <a href="https://www.scalatest.org/">ScalaTest</a> throws an exception at runtime if a <code>...
+                    should ... in</code> keyword is
+                nested incorrectly.</p>
+            <p>To address this, we instead use Scala 3
+                <control>macros</control>
+                . Dangerous operators like <code>scrape</code> have a
+                <control>safe version</control>
+                (exposed outside
+                the DSL package) and an
+                <control>unsafe</control>
+                one (kept private). The safe version uses Scala <code>inline</code> methods
+                and <code>scala.compiletime</code> utilities to detect and prevent repeated <code>given</code>s at
+                compile time.
+            </p>
+            <p>The macro is implemented as follows:</p>
+
+            <code-block lang="Scala">
+                private inline def isInContext[T]: Boolean =
+                    summonFrom:
+                        case given T =&gt; true
+                        case _ =&gt; false
+
+
+                inline def catchRecursiveCtx[T](inline contextName: String): Unit =
+                    if isInContext[T] then error(&quot;\&quot;&quot; + contextName + &quot;\&quot; keyword cannot be placed
+                        inside another \&quot;&quot; + contextName + &quot;\&quot;&quot;)
+            </code-block>
+        </chapter>
+        <chapter title="Scooby Testing Class" id="scooby-testing-class">
+            <p>To facilitate DSL testing, a <code>ScoobyTest</code> class has been developed. This class contains
+                methods that simulate Scooby
+                application behavior, making it easier to test various scenarios.</p>
+        </chapter>
+    </chapter>
+
+</topic>
