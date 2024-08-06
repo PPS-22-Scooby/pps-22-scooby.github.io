@@ -8,6 +8,69 @@ The primary areas where I've contributed on the implementation side include:
 * DSL structure, scraper section, and safety mechanisms
 * Scooby testing class
 
+## HTTP library new API
+
+After using the library in various scenarios, we noticed that the original usage could be cumbersome and verbose. To
+address this, we designed and implemented a new API to provide a more flexible and concise usage, adopting a DSL-like 
+approach (reported here as it is an implementation detail)
+
+For example, the following code to make a simple GET request...
+
+```Scala
+val client = SimpleHttpClient()
+val url = URL("www.example.com")
+val request: Either[HttpError, Request] = Request.builder
+    .get()
+    .at(url)
+    .headers(("Example-Header", "Value"))
+    .build
+val response: Either[HttpError, Response] = request match
+    case Left(_) => ... // error in building the request
+    case Right(req) => req.send(client)
+val body: String = response match
+    case Left(_) => ... // error in sending the request
+    case Right(res) => res.body
+
+val document = ScrapeDocument(body, url)
+```
+
+...has been simplified to this:
+
+```Scala
+given SimpleHttpClient = SimpleHttpClient()
+
+val result: Either[HttpError, ScrapeDocument] = 
+    GET("www.example.com") sending:
+        Headers:
+            Seq(("Example-Header", "Value"))
+```
+
+The new API relies on the **Deserializer** mechanism and the `PartialCall` class.
+
+```plantuml
+@startuml
+hide empty members
+
+interface Deserializer<R, T> << (T, #FF7700) Trait >> {
+    deserialize(response: R): Either[HttpError, T]
+}
+
+class PartialCall<T, C: HttpClient & Backend> {
+    ...
+}
+
+PartialCall ..> Deserializer: <<uses>>
+@enduml
+```
+
+Using Scala's `Conversion` system, calls are automatically routed through a `given` Client with a `Backend` that works
+with a specific response type. When a `Response` is received, a `given` deserializer converts
+the `Either[HttpError, Response]` into `Either[HttpError, T]`, where `T` is inferred from the receiver variable's type (
+e.g., a `ScrapeDocument`).
+
+This mechanism simplifies and clarifies the library's usage while maintaining safety checks and error management.
+
+
 ### Scooby Start/Stop Mechanisms
 
 The Scooby system utilizes the Akka actor system, making it crucial to manage the application's start and stop processes
