@@ -105,8 +105,8 @@
                 * @tparam T Type of the result returned by this scraping behavior
                 */
                 inline def scrape[T](block: ScrapeBehaviorScope[T])(using globalScope: ConfigurationWrapper[T]): Unit =
-                catchRecursiveCtx[ScrapeDocument](&quot;scrape&quot;)
-                scrapeOp(block)
+                    catchRecursiveCtx[ScrapeDocument](&quot;scrape&quot;)
+                    scrapeOp(block)
 
                 /**
                 * Unsafe version of the one inside [[SafeOps]]
@@ -115,11 +115,11 @@
                 * @tparam T Type of the result returned by this scraping behavior
                 */
                 def scrapeOp[T](block: ScrapeBehaviorScope[T])(using globalScope: ConfigurationWrapper[T]): Unit =
-                globalScope.configuration =
-                globalScope.configuration.focus(_.scraperConfiguration.scrapePolicy).replace:
-                doc =&gt;
-                given ScrapeDocument = doc
-                block
+                    globalScope.configuration =
+                        globalScope.configuration.focus(_.scraperConfiguration.scrapePolicy).replace:
+                            doc =&gt;
+                                given ScrapeDocument = doc
+                                block
 
                 globalScope.scrapingResultSetting = ScrapingResultSetting[T]()
             </code-block>
@@ -134,7 +134,7 @@
 
             <code-block lang="Scala">
                 scrape:
-                elements that haveId(&quot;exampleId&quot;)
+                    elements that haveId(&quot;exampleId&quot;)
             </code-block>
             <p>Here, <code>that</code> is an alias for the Scala collection method <code>filter</code>, and
                 <code>haveId</code> is a method that generates a predicate
@@ -142,14 +142,13 @@
             </p>
 
             <code-block lang="Scala">
-                def elements[D &lt;: Document &amp; CommonHTMLExplorer](using documentContext: D): Iterable[HTMLElement]
-                =
-                documentContext.getAllElements
+                def elements[D &lt;: Document &amp; CommonHTMLExplorer](using documentContext: D): Iterable[HTMLElement] =
+                    documentContext.getAllElements
 
                 extension [T](x: Iterable[T])
-                inline infix def that(predicate: T =&gt; Boolean): Iterable[T] = x filter predicate
+                    inline infix def that(predicate: T =&gt; Boolean): Iterable[T] = x filter predicate
 
-                infix def haveId(id: String): HTMLElementRule = _.id == id
+                    infix def haveId(id: String): HTMLElementRule = _.id == id
             </code-block>
             <p>This approach is used throughout the DSL, making it highly customizable and enabling the creation of
                 various useful
@@ -165,9 +164,9 @@
 
             <code-block lang="Scala">
                 scrape:
-                scrape:
-                scrape:
-                elements that haveId(&quot;exampleId&quot;)
+                    scrape:
+                        scrape:
+                            elements that haveId(&quot;exampleId&quot;)
             </code-block>
             <p>While this program is invalid, detecting multiple nested <code>given</code>s in Scala can be tricky. For
                 instance, <a href="https://www.scalatest.org/">ScalaTest</a> throws an exception at runtime if a <code>...
@@ -188,14 +187,14 @@
 
             <code-block lang="Scala">
                 private inline def isInContext[T]: Boolean =
-                summonFrom:
-                case given T =&gt; true
-                case _ =&gt; false
+                    summonFrom:
+                        case given T =&gt; true
+                        case _ =&gt; false
 
 
                 inline def catchRecursiveCtx[T](inline contextName: String): Unit =
-                if isInContext[T] then error(&quot;\&quot;&quot; + contextName + &quot;\&quot; keyword cannot be placed
-                inside another \&quot;&quot; + contextName + &quot;\&quot;&quot;)
+                    if isInContext[T] then error(&quot;\&quot;&quot; + contextName + &quot;\&quot; keyword cannot be placed
+                        inside another \&quot;&quot; + contextName + &quot;\&quot;&quot;)
             </code-block>
         </chapter>
         <chapter title="Scooby Testing Class" id="scooby-testing-class">
