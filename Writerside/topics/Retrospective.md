@@ -16,7 +16,7 @@ I've been able to apply the TDD methodology, which I've never used before, and I
 code and the tests in a more organized way. Personally, I'm satisfied with the work I've done, and I'm proud of the results we've achieved.
 
 ## Valerio Di Zio
-The project proved to be both highly challenging and immensely educational. 
+The project proved to be both challenging and immensely educational. 
 The adoption of the SCRUM methodology was instrumental in establishing a structured 
 yet adaptable approach to work management, resulting in enhanced team productivity and 
 streamlined communication amongst team members.
