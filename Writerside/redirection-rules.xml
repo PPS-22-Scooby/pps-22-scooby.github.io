@@ -42,4 +42,8 @@
         <description>Created after removal of "Uml" from Scooby</description>
         <accepts>Umls.html</accepts>
     </rule>
+    <rule id="5664396d">
+        <description>Created after removal of "Sprint 4" from Scooby</description>
+        <accepts>Spint-4.html</accepts>
+    </rule>
 </rules>

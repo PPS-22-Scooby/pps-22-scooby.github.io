@@ -1,0 +1,10 @@
+| Ticket Id | Summary                                                       | Backlog Item             | Assigned to                                                         | Estimation | Actual | Type          |
+|-----------|---------------------------------------------------------------|--------------------------|---------------------------------------------------------------------|------------|--------|---------------|
+| PPS-19    | Scraper prototyping                                           | Domain prototyping       | Luca Rubboli                                                        | 4h         | 1h     | Design        |
+| PPS-23    | Launch Cucumber tests from sbt command line                   | Project configuration    | Giovanni Antonioni                                                  | 10m        | 10m    | Enhancement   |
+| PPS-20    | Crawler prototyping                                           | Domain prototyping       | Giovanni Antonioni, Francesco Magnani                               | 30m        | 45m    | Design        |
+| PPS-14    | Define Cucumber tests: Scraper                                | Cucumber test definition | Luca Rubboli                                                        | 4h         | 3h     | Test          |
+| PPS-17    | Define Cucumber tests: Coordinator                            | Cucumber test definition | Valerio Di Zio                                                      | 4h         | 3h     | Test          |
+| PPS-16    | Define Cucumber tests: Exporter                               | Cucumber test definition | Francesco Magnani                                                   | 3h         | 3h     | Test          |
+| PPS-15    | Define Cucumber tests: Crawler                                | Cucumber test definition | Giovanni Antonioni                                                  | 1h         | 1h     | Test          |
+| PPS-13    | Configure repository of the Project                           | Project configuration    | Giovanni Antonioni                                                  | 1h 30m     | 1h     | Configuration |

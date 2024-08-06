@@ -1,0 +1,5 @@
+| Ticket Id | Summary                                                       | Backlog Item       | Assigned to                                                         | Estimation | Actual | Type          |
+|-----------|---------------------------------------------------------------|--------------------|---------------------------------------------------------------------|------------|--------|---------------|
+| PPS-28    | Define and implement utility library: HTTP Request            | HTTP library       | Francesco Magnani                                                   | 5h         | 4h     | Design        |
+| PPS-27    | Define and implement utility classes: Parser and Document     | Document library   | Valerio Di Zio, Francesco Magnani                                   | 4h         | 3h     | Design        |
+| PPS-29    | Define and implement Rule class                               | Rule library       | Giovanni Antonioni                                                  | 4h         | 5h     | Design        |
