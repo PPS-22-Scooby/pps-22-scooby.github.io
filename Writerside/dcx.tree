@@ -4,9 +4,9 @@
 
 <instance-profile id="dcx"
                  name="Scooby"
-                 start-page="starter-topic.md">
+                 start-page="starter-topic.topic">
 
-    <toc-element topic="starter-topic.md"/>
+    <toc-element topic="starter-topic.topic"/>
     <toc-element topic="Scooby-application-lifecycle.md"/>
     <toc-element toc-title="API Reference"
                  target-for-accept-web-file-names="https://pps-22-scooby.github.io/PPS-22-Scooby/api/"/>
