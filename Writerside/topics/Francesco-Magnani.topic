@@ -121,7 +121,6 @@
                                 given ScrapeDocument = doc
                                 block
 
-                globalScope.scrapingResultSetting = ScrapingResultSetting[T]()
             </code-block>
             <p>Additional keywords can be used within this scope, depending on the type of data being scraped. Scraping
                 policies can

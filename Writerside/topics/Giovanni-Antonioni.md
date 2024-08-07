@@ -11,10 +11,10 @@ As side works I've also worked on setting up the CI/CD pipeline and the document
 ### Crawler
 
 For the [Crawler](Crawler.md) component I've followed the Akka's [FSM design principle](https://doc.akka.io/docs/akka/current/typed/fsm.html) 
-using the Behavior DSL. Is possible to define the following states:
-- The `Crawl` state, where the actor receives the url to crawl and starts the process.
-- The `CheckLinks` state, where the actor checks if the url is already visited and decide if to continue the process.
-- The `Scrape` state, where the actor fetch the html content and spawn the scraper to start the process.
+
+using the Behavior DSL. Is possible to identifying the following two states:
+- The `idle` state, where the actor receives the url to crawl and starts the process of checking the documents frontier, starts a scraper children actor and the sub crawlers.
+- The `waitForChildren` state, where the actor awaits if the spawned children to terminate their computations 
 
 Each of the following state is managed by a specific function that handle the state transition and the message processing.
 
@@ -26,16 +26,18 @@ Each of the following state is managed by a specific function that handle the st
             buffer.stash(x)
             Behaviors.same
         
-        def crawl(): Behavior[Command] = 
-            val documentEither: Either[HttpError, CrawlDocument] = GET(url)
-            documentEither match
-                case Left(e) => handleError(e)
-                case Right(document) =>
-                scrape(document)
-                if maxDepth > 0 then
-                    checkPages(document)
-                    Behaviors.same
-                ...
+    private def waitingForChildren(alive: Int): Behavior[CrawlerCommand] =
+        context.log.info(s"${context.self.path.name} -> Children alive: $alive")
+        if alive == 0 then
+          context.log.info(s"Crawler ${context.self.path.name} has no child -> Terminating")
+          Behaviors.stopped
+        else
+          Behaviors.receiveMessage:
+            case ChildTerminated() =>
+              context.log.info(s"Child terminated")
+              waitingForChildren(alive - 1)
+            case _ => Behaviors.same 
+        
 ```
 
 #### Crawler's Exploration Policy

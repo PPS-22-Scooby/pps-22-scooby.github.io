@@ -16,10 +16,11 @@ Further details of implementation for the most relevant parts are described in t
 The coordinator is the actor with which the various crawlers interact to determine whether they can visit a URL. 
 This decision is based on URLs that have been previously visited and the restrictions specified in the robots.txt file, which lists the URLs that crawlers are not authorized to access.
 
-For the Coordinator component I've followed the Akka's [FSM design principle](https://doc.akka.io/docs/akka/current/typed/fsm.html) using the Behavior DSL. 
-Is possible to define the following states:
-- The `SetupRobots` state, called at application startup to allow the coordinator to have the updated list of "Disallow" links in the Robot.txt;
-- The `CheckPages` state, used when a *crawler* needs to know whether it can visit a URL and to update the list of those already visited during execution.
+Coordinator has been designed with a recursive behavior. The behavior is unique (`idle()`): once a request from a crawler is handled the behavior is updated by providing the new list of links already visited.
+
+Is possible to identify the following message handler:
+- `SetupRobots`, called at application startup to allow the coordinator to have the updated list of "Disallow" links in the Robot.txt;
+- `CheckPages`, used when a *crawler* needs to know whether it can visit a URL and to update the list of those already visited during execution.
 
 ```Scala
   def idle(crawledUrls: Set[URL], blackList: Set[String]): Behavior[CoordinatorCommand] =
@@ -42,8 +43,9 @@ Is possible to define the following states:
 ```
 
 ### Robots.txt
-For the translation of the robots.txt file into a set of non-visitable paths,
-a parser was created that takes the contents of the robots.txt file as input and translates it into a set of non-visitable paths
+For the translation management of the robot.txt files into a set of non-visitable paths a custom parser was created. 
+This will produce, as output, the set of disallowed paths that shouldn't be explored by crawlers.
+
 ```Scala
   def parseRobotsTxt(robotsTxt: String): Set[String] =
     if robotsTxt.isEmpty then return Set.empty
@@ -66,7 +68,7 @@ a parser was created that takes the contents of the robots.txt file as input and
               (userAgent, disallowRules)
     disallowRules.toSet
 ```
-Then the coordinator will retrieve this list and prevent a crawler from parsing the paths specified as ‘Disallow’ in robots.txt
+The coordinator will retrieve this list and prevent a crawler from parsing the paths specified as ‘Disallow’ in robots.txt
 
 ### Crawler
 My contribution to the creation of the crawler was to allow interaction with the coordinator, 

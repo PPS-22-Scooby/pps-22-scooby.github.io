@@ -6,6 +6,7 @@
     <variables>
         <primary-color>#F21E1E</primary-color>
         <custom-favicons>scooby_favicon.svg</custom-favicons>
+        <header-logo>scooby_favicon.svg</header-logo>
     </variables>
     <build-profile instance="dcx">
         <variables>
