@@ -155,8 +155,7 @@
                 keywords.</p>
         </chapter>
         <chapter title="DSL Safety Mechanism" id="dsl-safety-mechanism">
-            <p>Using Scala, <code>given</code>s can be risky if misused. Keywords like <code>scrape</code> and <code>scooby</code>
-                create scopes with a <code>given</code> context,
+            <p>Keywords like <code>scrape</code> and <code>scooby</code> create scopes with a <code>given</code> context,
                 potentially allowing invalid programs to compile, such as with
                 <control>nested repeated scopes</control>
                 :
@@ -168,7 +167,7 @@
                         scrape:
                             elements that haveId(&quot;exampleId&quot;)
             </code-block>
-            <p>While this program is invalid, detecting multiple nested <code>given</code>s in Scala can be tricky. For
+            <p>The snippet above results invalid, and a safety mechanism is required for preventing user to correctly use the DSL syntax. For
                 instance, <a href="https://www.scalatest.org/">ScalaTest</a> throws an exception at runtime if a <code>...
                     should ... in</code> keyword is
                 nested incorrectly.</p>

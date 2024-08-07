@@ -1,9 +1,9 @@
 # Valerio Di Zio
 
 The parts I focused on most during development were:
-- [Coordinator](Coordinator.md) actor;
+- [Coordinator](Coordinator.md);
 - Utility that takes care of managing [Robots.txt](Coordinator.md#robots-txt) files on Websites;
-- [Crawler](Crawler.md) actor;
+- [Crawler](Crawler.md);
 - Configuration Class;
 - [DSL](DSL.md) rules for using the crawler and headers;
 - MockServer useful for testing;
