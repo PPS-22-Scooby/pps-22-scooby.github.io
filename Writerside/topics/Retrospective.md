@@ -1,34 +1,38 @@
 # Retrospective
 
-In general, adopting SCRUM principles and mostly split the workload in sprints has been a useful practise that allowed
-a fair load balancing; further details of each sprint will be depicted in <a href="Backlog.md">Backlog</a> section.
+In general, adopting [SCRUM](https://www.scrum.org/) principles and mostly split the workload in sprints has been a
+useful practise that allowed
+a fair load balancing; further details of each sprint will be depicted in [Backlog](Backlog.md) section.
 
 ## Giovanni Antonioni
+
 Working on this project has been a fulfilling experience, more than I expected. We've been able to develop a complex
-library from scratch, in a relatively short amount of time, challenging ourselves with a new paradigm and language. I 
+library from scratch, in a relatively short amount of time, challenging ourselves with a new paradigm and language. I
 really appreciated, more that the development phase, the way we've structured the amount of work for the project, using
-the SCRUM methodology and the Agile principles. 
+the SCRUM methodology and the Agile principles.
 
 Developing the core of the application using Scala and Akka was a great choice, as it allowed to model the system in a
 more natural way, and easily manage the concurrency and parallelism of the system.
 
 I've been able to apply the TDD methodology, which I've never used before, and I found it very useful to structure the
-code and the tests in a more organized way. Personally, I'm satisfied with the work I've done, and I'm proud of the results we've achieved.
+code and the tests in a more organized way. Personally, I'm satisfied with the work I've done, and I'm proud of the
+results we've achieved.
 
 ## Valerio Di Zio
-The project proved to be both challenging and immensely educational. 
-The adoption of the SCRUM methodology was instrumental in establishing a structured 
-yet adaptable approach to work management, resulting in enhanced team productivity and 
-streamlined communication amongst team members.
 
-The work on library development, using Scala and Akka, was a great opportunity to delve into both technologies. 
-The ability to model the system naturally and manage the complexities of the project through the actor paradigm 
-was an interesting and highly educational discovery. In addition, the creation of continuous testing had a positive 
+The project proved to be both challenging and immensely educational.
+The adoption of the SCRUM methodology was decisive in establishing a structured but adaptable approach to work
+management, resulting in enhanced team productivity and
+streamlined communication among team members.
+
+The work on library development, using Scala and Akka, was a great opportunity to delve into both technologies.
+The ability to model the system naturally and manage the complexities of the project through the actor paradigm
+was an interesting and highly educational discovery. In addition, the creation of continuous testing had a positive
 impact on the way I approached code and testing, helping to maintain a high standard of quality.
 
-I am very pleased with the results achieved and the experience gained. This project not only broadened my technical 
-skills, but also strengthened my ability to work in a team and approach complex challenges in a collaborative and structured manner.
-
+I am very pleased with the results achieved and the experience gained.  This project has not only expanded my skills
+technical skills, but also strengthened my ability to work in a team and approach complex challenges in a collaborative and
+structured manner.
 
 ## Francesco Magnani
 

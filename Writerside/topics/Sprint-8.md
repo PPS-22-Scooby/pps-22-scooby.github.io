@@ -1,4 +1,4 @@
-# Sprint 8: Bugfix and refactoring
+# Sprint 8: Refactoring and bug fixing
 
 | Ticket Id | Summary                                    | Backlog item          | Assigned to                                                         | Estimation | Actual | Type          |
 |-----------|--------------------------------------------|-----------------------|---------------------------------------------------------------------|------------|--------|---------------|

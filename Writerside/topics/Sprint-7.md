@@ -1,4 +1,4 @@
-# Sprint 7: Bugfix and DSL
+# Sprint 7: DSL and bug fixing
 
 | Ticket Id | Summary                                                       | Backlog item        | Assigned to                                                         | Estimation | Actual | Type          |
 |-----------|---------------------------------------------------------------|---------------------|---------------------------------------------------------------------|------------|--------|---------------|
@@ -15,7 +15,6 @@
 
 ## Sprint goal
 
-Goals of this sprint:
 - General bug fixing;
 - Code clean-up and refactoring;
 - DSL design and implementation;

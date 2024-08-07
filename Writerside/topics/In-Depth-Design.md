@@ -1,11 +1,11 @@
 # In-Depth Design
 
 ## Project Structure
-The structure of the project is divided into three principal components: the DSL, the core, and the utils:
+The structure of the project is divided into three principal components: `DSL`, `core` and `utils`:
 
-- The **core** component is the heart of the system, containing the main entities and the logic to manage them;
-- The **DSL** components manages the way the user configures the system using our custom internal domain-specific language;
-- The **utils** component contains utility classes and functions.
+- The `core` contains the main entities and the logic to manage them;
+- The `DSL` component manages the way the user configures the system using our custom internal domain-specific language;
+- The `utils` component contains utility classes and functions.
 
 ```plantuml
 @startuml
@@ -76,11 +76,11 @@ A [Crawler](Crawler.md) is an actor responsible for searching and exploring link
 spawns new crawlers to explore new URLs. A [Crawler](Crawler.md) is able to download the content of a web page using the [HTTP](HTTP.md) utility class and parse it with the [Document](Document.md) component of the `utils` package.
 
 #### Crawler Messages
-| Message | Description                                                                                                |
-|---------|------------------------------------------------------------------------------------------------------------|
-| `Crawl(url: URL)` | Start crawling a specific url.                                                                             |
-| `CrawlerCoordinatorResponse(result: Iterator[URL])` | Receive a reponse from the coordinator. This message should be sent only by the Coordinator of the systekm |
-| `ChildTerminated()` | Signal this crawler that one of it's sub-cralwer has terminated its computation.                           |
+| Message                                             | Description                                                                                                |
+|-----------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `Crawl(url: URL)`                                   | Start crawling a specific url.                                                                             |
+| `CrawlerCoordinatorResponse(result: Iterator[URL])` | Receive a response from the coordinator. This message should be sent only by the Coordinator of the system |
+| `ChildTerminated()`                                 | Signal this crawler that one of it's sub-crawler has terminated its computation.                           |
 
 ### Scraper
 A [Scraper](Scraper.md) is an actor responsible for extracting data from a web page. It receives a document from a crawler, 
@@ -105,13 +105,13 @@ extracts the relevant information, and sends the results to one or more exporter
 ```
 
 #### Scraper Messages
-| Message                                             | Description                                                              |
-|-----------------------------------------------------|--------------------------------------------------------------------------|
-| `Scrape(document: ScrapeDocument)`                  | Starts to scrape a specific document |
+| Message                                             | Description                           |
+|-----------------------------------------------------|---------------------------------------|
+| `Scrape(document: ScrapeDocument)`                  | Start to scrape a specific document   |
 
 ### Coordinator
-The [Coordinator](Coordinator.md) is an actor that validates the URLs found by Crawlers. Usually the checks are based on a set of rules defined by the user, defining a 
-policy that dictates which URLs are valid and which are not. [Coordinator](Coordinator.md) also control's if a url was already visited by a crawler and if it's allowed in the 
+The [Coordinator](Coordinator.md) is an actor that validates the URLs found by Crawlers. Checks are usually based on a set of rules defined by the user, defining a 
+policy that dictates which URLs are valid and which are not. [Coordinator](Coordinator.md) also controls if a URL was already visited by a crawler and if it's allowed in the 
 robot file of the website.
 
 
@@ -137,10 +137,9 @@ robot file of the website.
 |-------------------------------------------------------------------------------|------------------------------------------------------|
 | `SetupRobots(url: URL)`                                                       | Parse and obtain rules for the robot file of the url |
 | `CheckPages(pages: List[URL], replyTo: ActorRef[CrawlerCoordinatorResponse])` | Check the pages fetched by a Crawler                 |
-| `SetCrawledPages()`                                                           | Set a predefined set of crawled page.                |
 
 ### Exporter
-The [Exporter](Exporter.md) is an actor responsible for exporting the scraped data. It receives the results from a [Scraper](Scraper.md) and exports them in a specific format.
+The [Exporter](Exporter.md) is an actor responsible for exporting the scraped data. It receives results from the [Scrapers](Scraper.md) and exports them in a specific format.
 Scooby supports two types of exporters: `StreamExporter` and `BatchExporter`. The former exports data as soon as it is scraped, while the latter aggregates the results and exports them all at once.
 For both kind of exporters, is possible to define a behaviour that specify the format of the output and how to export it.
 
@@ -173,10 +172,10 @@ For both kind of exporters, is possible to define a behaviour that specify the f
 @enduml
 ```
 #### Exporter Messages
-| Message | Description |
-|---------|-------------|
-| `Export(result: Result[T])` | Export the result of a scraping operation. |
-| `SignalEnd(replyTo: ActorRef[ScoobyCommand])` | Signal the end of the export process. |
+| Message                                       | Description                                |
+|-----------------------------------------------|--------------------------------------------|
+| `Export(result: Result[T])`                   | Export the result of a scraping operation. |
+| `SignalEnd(replyTo: ActorRef[ScoobyCommand])` | Signal the end of the export process.      |
 
 ### Scooby
 Scooby is the main entity of the system, responsible for starting the system and managing the entities. 
@@ -199,16 +198,16 @@ It receives a `Configuration` object that describes the desired settings and sta
 ```
 
 #### Scooby Messages
-| Message | Description                                                          |
-|---------|----------------------------------------------------------------------|
-| `Start` | Starts the application.                                              |
+| Message                         | Description                                                          |
+|---------------------------------|----------------------------------------------------------------------|
+| `Start`                         | Starts the application.                                              |
 | `RobotsChecked(found: Boolean)` | Signal that the operations for checking the Robot file are finished. |
-| `ExportFinished` | Signal the end of exporting operations.                              |
+| `ExportFinished`                | Signal the end of exporting operations.                              |
 
 
 ## DSL
 The [DSL](DSL.md) component is responsible for managing the way the user configures the system using our custom internal domain-specific 
-language. Every main entity in the system has a corresponding set of operations that can be used for produce a desired configuration
+language. Every main entity in the system has a corresponding set of operations that can be used to produce a desired configuration
 described by a `Configuration` object, that will then be used by the `Scooby` entity to start the system.
 
 ```plantuml
@@ -273,7 +272,7 @@ to extract data from the page.
 
 ### HTTP
 
-[HTTP](HTTP.md) is a utility component that allows to wrap a HTTP client library for download and parse the content of a 
+[HTTP](HTTP.md) is a utility component that allows to wrap an HTTP client library for download and parse the content of a 
 web page with a given simple and easy to use API.
 
 ```plantuml

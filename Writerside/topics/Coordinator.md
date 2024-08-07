@@ -1,5 +1,5 @@
 # Coordinator
-The **Coordinator** is an actor that validates the URLs found by Crawlers. 
+The **Coordinator** is an actor that validates the URLs found by [Crawlers](Crawler.md). 
 The checks are based on a set of rules defined by the user, defining a policy that dictates which URLs are valid and which are not. 
 Coordinators also control if a URL was already visited by a crawler and if it's allowed by the robot.txt file of the website.
 

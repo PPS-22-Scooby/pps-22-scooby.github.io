@@ -1,18 +1,51 @@
 # Luca Rubboli
 
 From an implementation point of view I mainly managed:
-- Scraper design and its incremental implementation, starting from a standard class design, enriching after a working version has been done with its actor extension. Moreover, some template Policies has been provided.
-- Scraper's Result design and its incremental implementation, starting from a simple container, enriched with aggregation techniques to promote Exporter's scaling.
-- DSL Exporter section, designing and implementing DSL keywords.
-- Design and implementation of tests suites related to previous topics.
+- Scraper;
+- Scraper's Result;
+- DSL Exporter section;.
+- Tests suites related to previous topics.
 
 Further details of implementation for the most relevant parts are described in the following sections.
+
+### Scraper
+
+Scraper has been implemented starting from a standard class design, then enriched after a working version has been done with its actor extension.
+
+Given a proper implementation of result class and scraper policy, its implementation results quite trivial. After its set up, it manages the scrape action of one document; after finishing the policy application, it signals the Exporter component with result obtained and stops.
+
+```Scala
+/**
+ * Class representing Scraper actor.
+ *
+ * @param exporterRouter the exporter router [[ActorRef]] where to redirect the scraping results
+ * @param scrapePolicy the scraping policy used by the actor.
+ * @tparam T type representing the [[DataResult]] type.
+ */
+class Scraper[T](exporterRouter: ActorRef[ExporterCommands], scrapePolicy: ScraperPolicy[T]):
+  /**
+   * Defines [[Scraper]]'s [[Behavior]].
+   * @return the [[Behavior]]
+   */
+  def idle(): Behavior[ScraperCommands] =
+    Behaviors.setup: context =>
+      Behaviors.receiveMessage:
+        case ScraperCommands.Scrape(doc: ScrapeDocument) =>
+          Try:
+            val res = resultFromPolicy(doc)
+            exporterRouter ! ExporterCommands.Export(res)
+          .fold(e => println(s"An error occurred while scraping: $e"), identity)
+          Behaviors.stopped
+
+  private def resultFromPolicy(argument: ScrapeDocument): Result[T] =
+    Result(scrapePolicy(argument))
+```
 
 ### Scraper Policies
 
 The design phase involving scraper policies aimed to obtain a modular, extensible and customizable implementation.
 In order to obtain a general, but yet effective, policy, it consists of a function that maps a document (so called
-ScrapeDocument, which contains useful utils for scraping) into an iterable of generic type.
+ScrapeDocument, which contains useful API for scraping) into an iterable of generic type.
 
 ```Scala
 /**
@@ -55,8 +88,8 @@ Moreover, following this approach, an extension method to concatenate policies h
 
 ### Result
 
-Result has been implemented through a case class, promoting immutability. Due to exporter requirements on both Batch
-and Streaming aggregation strategies, both kind of updates have been provided, as well as an aggregation method which
+Result has been incrementally implemented, starting from a simple container, enriched with aggregation techniques to promote Exporter's scaling.
+In details, it has been implemented through a case class, promoting immutability. Due to exporter requirements on both Batch and Streaming aggregation strategies, both kind of updates have been provided, as well as an aggregation method which
 allows usage of multiple Exporters.
 
 ```Scala

@@ -1,6 +1,5 @@
 # Design
-The library has been designed adopting the actor paradigm approach; with this regard, the main challenging modelling
-steps were the identification of the main entities in the system and manage their interaction, expressed in terms of
+The library has been designed adopting the actor paradigm approach; with this regard, the most challenging steps were the identification of the main entities in the system and the management of their interaction, expressed in terms of
 behaviors and messages they can receive.
 
 ## Domain Glossary
@@ -8,15 +7,15 @@ behaviors and messages they can receive.
 In order to make it easier to identify the main entities of the system, a detailed glossary describing terms used in the
 domain has been built:
 
-| Term                 | Description                                                                                                        |
-|----------------------|--------------------------------------------------------------------------------------------------------------------|
-| Crawler              | Entity that navigates through links, building a data structure representing the paths taken during the navigation  |
-| Scraper              | Entity that extracts specific data from Web sites by analyzing page content to gather structured information.      |
-| Traversable          | Something that can be traversed, or scraped, obtaining relevant information                                        |
-| Link                 | Something that can be explored to get other resources, which increases the depth of the search                     |
-| Exploration Policy | Can be represented as a crawler’s behavior → is the method that is used by a crawler for exploring a website.      |
-| Scraping Policy      | The behavior of a scraper → it will scrape a page fetching the elements inside it based on some defined condition. |
-| Exporter             | An element that, given some scraped data, will export them in a given format (like json).                          |
+| Term                 | Description                                                                                                          |
+|----------------------|----------------------------------------------------------------------------------------------------------------------|
+| Crawler              | Entity that navigates through links, building a data structure representing the paths taken during the navigation    |
+| Scraper              | Entity that extracts specific data from Web sites by analyzing page content to gather structured information.        |
+| Traversable          | Something that can be traversed, or scraped, obtaining relevant information                                          |
+| Link                 | Something that can be explored to get other resources, which increases the depth of the search                       |
+| Exploration Policy   | Intended as crawler’s behavior: defines the action performed by a crawler when exploring a website                   |
+| Scraping Policy      | Intended as scraper’s behavior: defines the action performed by a scraper in order to fetch the data from a web page |
+| Exporter             | Entity that exports scraped data, in a given format (e.g. json)                                                      |
 
 ## Reactive Entities
 
@@ -26,9 +25,9 @@ domain has been built:
 - **Exporter**: Exports scraped data.
 
 ## Passive Entities
-- **Document**: Represent an HTML document fetched from a URL;
-- **ScrapeDocument**: Represent a facade of a document that can be scraped;
-- **CrawlDocument**: Represent a facade of a document that can be crawled;
+- **Document**: Represents an HTML document fetched from a URL;
+- **ScrapeDocument**: Represents a facade of a document that can be scraped;
+- **CrawlDocument**: Represents a facade of a document that can be crawled;
 - **Result**: Represents a result of a scraping operation. 
 
 ## General UML

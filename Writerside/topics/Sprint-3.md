@@ -1,17 +1,17 @@
 # Sprint 3: Project structure and definition of main classes
 
-| Ticket Id | Summary                                                       | Backlog Item       | Assigned to                                                         | Estimation | Actual | Type          |
-|-----------|---------------------------------------------------------------|--------------------|---------------------------------------------------------------------|------------|--------|---------------|
-| PPS-28    | Define and implement utility library: HTTP Request            | HTTP library       | Francesco Magnani                                                   | 5h         | 4h     | Design        |
-| PPS-27    | Define and implement utility classes: Parser and Document     | Document library   | Valerio Di Zio, Francesco Magnani                                   | 4h         | 3h     | Design        |
-| PPS-29    | Define and implement Rule class                               | Rule library       | Giovanni Antonioni                                                  | 4h         | 5h     | Design        |
+| Ticket Id | Summary                                                   | Backlog Item     | Assigned to                       | Estimation | Actual | Type   |
+|-----------|-----------------------------------------------------------|------------------|-----------------------------------|------------|--------|--------|
+| PPS-28    | Define and implement utility library: HTTP Request        | HTTP library     | Francesco Magnani                 | 5h         | 4h     | Design |
+| PPS-27    | Define and implement utility classes: Parser and Document | Document library | Valerio Di Zio, Francesco Magnani | 4h         | 3h     | Design |
+| PPS-26    | Define and Implement the Result class                     | Result library   | Luca Rubboli                      | 6h         | 6h     | Design |                                 
+| PPS-29    | Define and implement Rule class                           | Rule library     | Giovanni Antonioni                | 4h         | 5h     | Design |
 
 ## Sprint goal
 
-The goals of this sprint are to define the main entities and define the strucutre of the project accordingly.
-- Defininition and implementation of Coordinator.
-- Defininition and implementation of Crawler.
-- Defininition and implementation of Scraper.
+- Definition and implementation of Coordinator;
+- Definition and implementation of Crawler;
+- Definition and implementation of Scraper;
 - Implementation of the Result and Rules classes.
 
 ## Sprint deadline

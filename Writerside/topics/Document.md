@@ -3,7 +3,7 @@
 Since the Scooby application needs to continuously manage HTML documents and links within webpages, an abstraction for
 these concepts is necessary.
 
-To address this, we developed a **Document Library** that encapsulates everything needed to handle HTML documents.
+To address this, a **Document Library** that encapsulates everything needed to handle HTML documents as been developed.
 
 ## Structure
 

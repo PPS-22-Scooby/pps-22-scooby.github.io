@@ -14,10 +14,8 @@
 
 ## Sprint goal
 
-The goals of this sprint are:
-
-- Setting up the project environment and all the development tools needed
-- Write a simple prototype of the main entities of the project
+- Setting up the project environment and all the development tools needed;
+- Write a simple prototype of the main entities of the project.
 
 ## Sprint deadline
 16/06/2024
@@ -27,5 +25,5 @@ The tasks were completed on time and no tasks were left behind. A simple prototy
 be taken as a starting point for the next sprints.
 
 ## Sprint retrospective
-Here we've overstimated the time needed for complete the task, in particular, for cucumber tests definition. This is due to the fact that the team is not yet familiar with the tools and the technologies used in the project, and we've counted
+We've overstimated the time needed for complete the task, in particular, for cucumber tests definition. This is due to the fact that the team is not yet familiar with the tools and the technologies used in the project, and we've counted
 also the time needed to learn them.

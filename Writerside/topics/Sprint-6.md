@@ -15,8 +15,7 @@
 | PPS-50    | Gracefully handle Explorer Document error                     | Enhancement           | Luca Rubboli                                                        | 2h         | 1h 30m | Fix           |
 ## Sprint goal
 
-Goals of this sprint:
-- Minor refactor;
+- Minor refactoring;
 - Manage termination status;
 - Domain entities integration;
 - Extract application parameters;

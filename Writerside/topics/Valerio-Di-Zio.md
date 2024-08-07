@@ -1,13 +1,13 @@
 # Valerio Di Zio
 
 The parts I focused on most during development were:
-- Design and development of the [Coordinator](Coordinator.md) actor;
-- Design and development of the utility that takes care of managing [Robots.txt](Coordinator.md#robots-txt) files on Websites;
-- Implementation of the actor [Crawler](Crawler.md);
-- Implementation of the Configuration Class;
-- Implementation and design of [DSL](DSL.md) rules for using the crawler and headers;
-- Design and implementation of MockServer useful for testing;
-- Design and implementation of tests suites related to previous topics.
+- [Coordinator](Coordinator.md) actor;
+- Utility that takes care of managing [Robots.txt](Coordinator.md#robots-txt) files on Websites;
+- [Crawler](Crawler.md) actor;
+- Configuration Class;
+- [DSL](DSL.md) rules for using the crawler and headers;
+- MockServer useful for testing;
+- Tests suites related to previous topics.
 
 
 Further details of implementation for the most relevant parts are described in the following sections.
@@ -96,7 +96,7 @@ def checkPages(document: CrawlDocument): Unit =
 ```
 
 ## DSL
-Regarding DSL, my contribution is about the keyword: *"crawl"* and allowing *headers* to be defined directly in the config.
+Regarding DSL, my contribution is about the keyword: `crawl` and allowing `headers` to be defined directly in the config.
 
 ### Crawl keyword
 The DSL operators defined in the **Crawl** object are designed to allow smooth and readable crawler configuration through natural language-like syntax. These operators are used to specify where to start browsing and what crawling policies to adopt.

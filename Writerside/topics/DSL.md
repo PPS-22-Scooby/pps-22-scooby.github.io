@@ -2,11 +2,11 @@
 
 A Domain-Specific Language (DSL) has been developed as an alternative to a standard API for configuring the application.
 
-Adhering to design principles, the DSL is implemented **on top of the existing, functional API**. This ensures that the
+Adhering to design principles, the DSL is implemented **on top of the existing functional API**. This ensures that the
 system remains _independent_ of the DSL's design and implementation.
 
 The DSL is organized into modules, each representing a different aspect of the application's configuration. There are
-four modules: Config, Crawl, Scrape, and Export. Each module is divided into two parts: `Context` and `Ops`.
+four modules: _Config_, _Crawl_, _Scrape_, and _Export_. Each module is divided into two parts: `Context` and `Ops`.
 
 Here is an example within the Config module:
 

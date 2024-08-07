@@ -68,8 +68,7 @@ For more details, see the [Coordinator](Coordinator.md) section.
 
 ## Crawler Tree
 
-Why wait only for the Root Crawler? The system is designed so that a Crawler can finish its execution under one of four
-conditions:
+The system is designed so that a Crawler can finish its execution under one of four conditions:
 
 * No valid links to explore on the crawled page.
 * It is a _leaf Crawler_ (i.e., it has reached the maximum crawling depth).

@@ -2,8 +2,8 @@
 
 The main areas that I've contributed to on the implementation side include:
 
-- [Crawler](Crawler.md) prototyping and implementation 
-- [Exporter](Exporter.md) prototyping and implementation
+- [Crawler](Crawler.md);
+- [Exporter](Exporter.md);
 - Scraper ruling system on the [DSL](DSL.md) component
 
 As side works I've also worked on setting up the CI/CD pipeline and the documentation system for the project.

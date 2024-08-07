@@ -1,7 +1,7 @@
 # HTTP Library
 
-The [Crawler](Crawler.md) is a key component that needs to access web resources, necessitating a library for making HTTP
-calls. To address this, we implemented an HTTP library that integrates several robust, pre-existing libraries.
+The [Crawler](Crawler.md) is a key component that needs to access web resources, requiring a library for making HTTP
+calls. To address this, an **HTTP library** that integrates several robust, pre-existing libraries was implemented.
 
 Below is the general structure, presented in UML.
 

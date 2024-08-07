@@ -2,14 +2,14 @@
 
 ## Business Requirements
 
-The project aim to build an application that allow users to scrape and crawl web pages.
+The project aims to build an application that allow users to scrape and crawl web pages.
 
 Main entities involved:
-- **Crawler**: Entity which navigates through web pages links, building a data structure which contains all visited pages; 
+- **Crawler**: Entity which navigates through web pages links, building a data structure which contains all the visited pages; 
 - **Scraper**: Entity which collects data from web pages;
 - **Exporter**: Entity which exports collected data in a readable format.
 
-Main application parameters should be provided by users in an efficient and easy manner, i.e. defining a DSL to
+Main application parameters should be provided by users in an efficient and easy manner, e.g. defining a DSL to
 interact with the application.
 
 ## Functional Requirements
@@ -28,7 +28,7 @@ interact with the application.
 - Extracted data should be stored in a structured format, such as JSON;
 - Support for exporting data in various formats, including JSON;
 - Implement mechanisms to avoid multiple visits on same pages; 
-- Application should include mechanisms to respect the robots.txt file;
+- Application should include mechanisms to comply to the robots.txt file;
 - Application should support HTTPS protocol to interact with websites.
 
 ### Configuration
@@ -46,7 +46,7 @@ interact with the application.
 
 ## Assumptions
 
-Given the variety of policies that web servers adopt to avoid automatic traffic, we assume for a matter of
+Given the variety of policies that web servers adopt to avoid automatic traffic, we assume for the sake of
 simplicity that target websites will not implement significant anti-scraping measures. There won't be workaround to
 succeed CAPTCHA tests for instance.
 

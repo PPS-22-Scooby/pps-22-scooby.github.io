@@ -1,7 +1,7 @@
 # Crawler
 
-A Crawler is a system entity responsible for searching explorable links inside a web page. It interacts with the 
-coordinator to validate the found urls and is responsible for creating scrapers, for extracting data from a page
+A **Crawler** is a system entity responsible for searching explorable links inside a web page. It interacts with the 
+[Coordinator](Coordinator.md) to validate the found urls and is responsible for creating scrapers, for extracting data from a page
 and new crawlers exploring new urls.
 
 We can summarize the interaction between the Crawler and the other components with the following:

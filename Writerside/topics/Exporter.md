@@ -39,7 +39,7 @@ completed. Since they receive results from multiple scrapers and cannot process 
 **aggregate** the results. This is where **Aggregation Behavior** comes into play, defining how different results should
 be combined. Like Exporting Behaviors, multiple default Aggregation Behaviors can be defined.
 
-**Note:** In the case of Batch Exporters, they must interact with the system manager (_Scooby_) to determine when the
+**Note:** Batch Exporters must interact with the system manager (_Scooby_) to determine when the
 entire system execution has ended, allowing them to proceed with exporting the accumulated results.
 
 The interaction between Scrapers and Batch Exporters can be summarized as follows:

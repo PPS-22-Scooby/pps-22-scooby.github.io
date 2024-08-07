@@ -1,6 +1,6 @@
 # Scraper
 
-A scraper is a system entity tasked with analyzing page content to gather structured information.
+A **Scraper** is a system entity tasked with analyzing page content to gather structured information.
 Its work is triggered by the Crawler, which provides the document to scrape. Once its analysis is finished, it notifies
 the Exporter with the result obtained and stops.
 

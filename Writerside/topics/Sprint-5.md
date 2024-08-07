@@ -12,8 +12,7 @@
 
 ## Sprint goal
 
-Goals of this sprint:
-- Minor refactor;
+- Minor refactoring;
 - CI enhancement;
 - Robots.txt management;
 - Crawler and Scraper termination.

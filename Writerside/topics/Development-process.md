@@ -32,12 +32,11 @@ product backlog, the objectives of each sprint were defined. Activities for each
 during these meetings.
 
 At the end of each sprint, a meeting was held to evaluate the week’s work, identify any incomplete features or
-shortcomings, and highlight problems encountered and key points for consideration in the next sprint.
+shortcomings, and highlight problems encountered and key points to considered in the next sprint.
 
-### Daily Scrum
+### Daily Updates
 
-Daily meetings were held to align the group members, typically lasting less than an hour. If no updates were needed, the
-meetings were occasionally shortened. Additional meetings were convened as needed to provide assistance or analyze
+Daily updates were continuously exchanged between the group members. Additional meetings were convened as needed to provide assistance or analyze
 critical problems, which could extend the duration of these meetings.
 
 ## YouTrack
@@ -54,8 +53,7 @@ instance, the **Glossary** contained a list of significant terms and entities re
 
 ### Agile Board
 
-The _Agile board_ facilitated the organization, visualization, and tracking of tasks assigned to group members (
-i.e., _tickets_). Four columns were set up: Open, In Progress, To Be Checked, and Completed. Each ticket was labeled
+The _Agile board_ facilitated the organization, visualization, and tracking of tasks assigned to group members (i.e., _tickets_). Four columns were set up: Open, In Progress, To Be Checked, and Completed. Each ticket was labeled
 with one of the following categories:
 
 * Configuration
@@ -101,7 +99,7 @@ and implementing a test before developing the actual feature, leading to the cre
 significant portion of the code.
 
 Apart from trivial features, the process included **defining and implementing a test**, then **developing the desired
-feature** until the test(s) passed, and finally **refactoring** to improve the written code.
+feature** until the test(s) passed, and finally **refactoring** to improve code quality.
 
 
 ### Testing on Pull Requests

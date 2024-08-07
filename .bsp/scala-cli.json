@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "/Users/valerio/Library/Application Support/Coursier/bin/.scala-cli.aux",
+    "bsp",
+    "--json-options",
+    "/Users/valerio/Desktop/UNIVERSITÀ/PPS/pps-22-scooby.github.io/.scala-build/ide-options-v2.json",
+    "--json-launcher-options",
+    "/Users/valerio/Desktop/UNIVERSITÀ/PPS/pps-22-scooby.github.io/.scala-build/ide-launcher-options.json",
+    "--envs-file",
+    "/Users/valerio/Desktop/UNIVERSITÀ/PPS/pps-22-scooby.github.io/.scala-build/ide-envs.json",
+    "/Users/valerio/Desktop/UNIVERSITÀ/PPS/pps-22-scooby.github.io"
+  ],
+  "version": "1.4.0",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
