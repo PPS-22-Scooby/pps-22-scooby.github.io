@@ -1,5 +1,5 @@
-import org.unibo.scooby.Application.scooby
 import org.unibo.scooby.dsl.ScoobyApplication
+import scala.concurrent.duration.DurationInt
 
 object MyObject extends ScoobyApplication:
 
